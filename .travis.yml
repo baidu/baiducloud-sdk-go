@@ -11,5 +11,5 @@ script:
   - dep ensure -v
   - go get ./...
   - go build ./...
-  - diff -u <(echo -n) <(gofmt -d .)
+  - diff -u <(echo -n) <(gofmt -d -s .)
   - go vet $(go list ./... | grep -v /vendor/)

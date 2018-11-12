@@ -11,11 +11,11 @@ func TestAddBackendServers(t *testing.T) {
 	args := &AddBackendServersArgs{
 		LoadBalancerId: "lb-e5b33752",
 		BackendServerList: []BackendServer{
-			BackendServer{
+			{
 				InstanceId: "i-YWIy3FQx",
 				Weight:     50,
 			},
-			BackendServer{
+			{
 				InstanceId: "i-vfBlsqNG",
 				Weight:     50,
 			},
@@ -44,7 +44,7 @@ func TestDescribeBackendServers(t *testing.T) {
 func TestUpdateBackendServers(t *testing.T) {
 	args := &UpdateBackendServersArgs{
 		LoadBalancerId: "lb-e5b33752",
-		BackendServerList: []BackendServer{BackendServer{
+		BackendServerList: []BackendServer{{
 			InstanceId: "i-vfBlsqNG",
 			Weight:     99,
 		}},
