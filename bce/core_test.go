@@ -563,7 +563,7 @@ func TestGetSessionToken(t *testing.T) {
 		DurationSeconds: 600,
 		Id:              "ef5a4b19192f4931adcf0e12f82795e2",
 		AccessControlList: []AccessControlListItem{
-			AccessControlListItem{
+			{
 				Service:    "bce:bos",
 				Region:     config.GetRegion(),
 				Effect:     "Allow",

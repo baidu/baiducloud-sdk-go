@@ -322,7 +322,7 @@ func (option *SignOption) signedHeadersToString() string {
 	if option.headersToSignSpecified {
 		headers = append(headers, option.HeadersToSign...)
 	} else {
-		for key, _ := range option.Headers {
+		for key := range option.Headers {
 			if isCanonicalHeader(key) {
 				headers = append(headers, key)
 			}
