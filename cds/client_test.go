@@ -2,9 +2,10 @@ package cds
 
 import (
 	"net/http"
-	"os"
-	"github.com/baidu/baiducloud-sdk-go/bce"
 	"net/http/httptest"
+	"os"
+
+	"github.com/baidu/baiducloud-sdk-go/bce"
 	"github.com/gorilla/mux"
 )
 
