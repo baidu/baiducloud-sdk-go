@@ -1,4 +1,4 @@
-package bcc
+package cds
 
 import (
 	"bytes"
@@ -83,22 +83,6 @@ type DiskSizeConfig struct {
 	LogicalZone  string `json:"logicalZone"`
 }
 
-// DeleteVolume Delete a volume
-func (c *Client) DeleteVolume(volumeId string) error {
-	if volumeId == "" {
-		return fmt.Errorf("DeleteVolume need a id")
-	}
-	req, err := bce.NewRequest("DELETE", c.GetURL("v2/volume"+"/"+volumeId, nil), nil)
-	if err != nil {
-		return err
-	}
-	_, err = c.SendRequest(req, nil)
-	if err != nil {
-		return err
-	}
-	return nil
-}
-
 type CreateVolumeArgs struct {
 	PurchaseCount int          `json:"purchaseCount,omitempty"`
 	CdsSizeInGB   int          `json:"cdsSizeInGB"`
@@ -110,6 +94,32 @@ type CreateVolumeArgs struct {
 
 type CreateVolumeResponse struct {
 	VolumeIds []string `json:"volumeIds,omitempty"`
+}
+
+type GetVolumeListArgs struct {
+	InstanceId string
+	ZoneName   string
+}
+
+type GetVolumeListResponse struct {
+	Volumes     []Volume `json:"volumes"`
+	Marker      string   `json:"marker"`
+	IsTruncated bool     `json:"isTruncated"`
+	NextMarker  string   `json:"nextMarker"`
+	MaxKeys     int      `json:"maxKeys"`
+}
+
+type DescribeVolumeResponse struct {
+	Volume *Volume `json:"volume"`
+}
+
+// AttachCDSVolumeArgs describe attachcds args
+type AttachVolumeArgs struct {
+	VolumeId   string `json:"-"`
+	InstanceId string `json:"instanceId"`
+}
+type AttachVolumeResponse struct {
+	VolumeAttachment *VolumeAttachment `json:"volumeAttachment"`
 }
 
 func (args *CreateVolumeArgs) validate() error {
@@ -164,16 +174,23 @@ func (c *Client) CreateVolumes(args *CreateVolumeArgs) ([]string, error) {
 
 }
 
-type GetVolumeListArgs struct {
-	InstanceId string
-	ZoneName   string
-}
-type GetVolumeListResponse struct {
-	Volumes     []Volume `json:"volumes"`
-	Marker      string   `json:"marker"`
-	IsTruncated bool     `json:"isTruncated"`
-	NextMarker  string   `json:"nextMarker"`
-	MaxKeys     int      `json:"maxKeys"`
+// DeleteVolume Delete a volume
+func (c *Client) DeleteVolume(volumeId string) error {
+	if volumeId == "" {
+		return fmt.Errorf("DeleteVolume need a id")
+	}
+	params := map[string]string{
+		"clientToken": c.GenerateClientToken(),
+	}
+	req, err := bce.NewRequest("DELETE", c.GetURL("v2/volume"+"/"+volumeId, params), nil)
+	if err != nil {
+		return err
+	}
+	_, err = c.SendRequest(req, nil)
+	if err != nil {
+		return err
+	}
+	return nil
 }
 
 // GetVolumeList get all volumes
@@ -204,10 +221,6 @@ func (c *Client) GetVolumeList(args *GetVolumeListArgs) ([]Volume, error) {
 	return blbsResp.Volumes, nil
 }
 
-type DescribeVolumeResponse struct {
-	Volume *Volume `json:"volume"`
-}
-
 // DescribeVolume describe a volume
 // More info see https://cloud.baidu.com/doc/BCC/API.html#.E6.9F.A5.E8.AF.A2.E7.A3.81.E7.9B.98.E8.AF.A6.E6.83.85
 func (c *Client) DescribeVolume(id string) (*Volume, error) {
@@ -235,16 +248,7 @@ func (c *Client) DescribeVolume(id string) (*Volume, error) {
 	return ins.Volume, nil
 }
 
-// AttachCDSVolumeArgs describe attachcds args
-type AttachCDSVolumeArgs struct {
-	VolumeId   string `json:"-"`
-	InstanceId string `json:"instanceId"`
-}
-type AttachCDSVolumeResponse struct {
-	VolumeAttachment *VolumeAttachment `json:"volumeAttachment"`
-}
-
-func (args *AttachCDSVolumeArgs) validate() error {
+func (args *AttachVolumeArgs) validate() error {
 	if args == nil {
 		return fmt.Errorf("AttachCDSVolumeArgs need args")
 	}
@@ -258,7 +262,7 @@ func (args *AttachCDSVolumeArgs) validate() error {
 }
 
 // AttachCDSVolume attach a cds to vm
-func (c *Client) AttachCDSVolume(args *AttachCDSVolumeArgs) (*VolumeAttachment, error) {
+func (c *Client) AttachVolume(args *AttachVolumeArgs) (*VolumeAttachment, error) {
 	err := args.validate()
 	if err != nil {
 		return nil, err
@@ -283,7 +287,7 @@ func (c *Client) AttachCDSVolume(args *AttachCDSVolumeArgs) (*VolumeAttachment, 
 	if err != nil {
 		return nil, err
 	}
-	var blbsResp AttachCDSVolumeResponse
+	var blbsResp AttachVolumeResponse
 	err = json.Unmarshal(bodyContent, &blbsResp)
 
 	if err != nil {
@@ -293,8 +297,8 @@ func (c *Client) AttachCDSVolume(args *AttachCDSVolumeArgs) (*VolumeAttachment, 
 }
 
 // DetachCDSVolume detach a cds
-// TODO: if a volume is ddetaching, need to wait
-func (c *Client) DetachCDSVolume(args *AttachCDSVolumeArgs) error {
+// TODO: if a volume is detaching, need to wait
+func (c *Client) DetachVolume(args *AttachVolumeArgs) error {
 	err := args.validate()
 	if err != nil {
 		return err
@@ -308,25 +312,6 @@ func (c *Client) DetachCDSVolume(args *AttachCDSVolumeArgs) error {
 		return err
 	}
 	req, err := bce.NewRequest("PUT", c.GetURL("v2/volume"+"/"+args.VolumeId, params), bytes.NewBuffer(postContent))
-	if err != nil {
-		return err
-	}
-	_, err = c.SendRequest(req, nil)
-	if err != nil {
-		return err
-	}
-	return nil
-}
-
-// DeleteCDS delete a cds
-func (c *Client) DeleteCDS(volumeID string) error {
-	if volumeID == "" {
-		return fmt.Errorf("DeleteCDS need a volumeId")
-	}
-	params := map[string]string{
-		"clientToken": c.GenerateClientToken(),
-	}
-	req, err := bce.NewRequest("DELETE", c.GetURL("v2/volume"+"/"+volumeID, params), nil)
 	if err != nil {
 		return err
 	}

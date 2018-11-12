@@ -63,11 +63,6 @@ func checkObjectKey(objectKey string) {
 	}
 }
 
-// GetBucketName returns the actual name of BOS Bucket.
-func (c *Client) GetBucketName(bucketName string) string {
-	return bucketName
-}
-
 // GetURL generates the full URL of http request for Baidu Cloud BOS API.
 func (c *Client) GetURL(bucketName, objectKey string, params map[string]string) string {
 	host := c.Endpoint
@@ -89,7 +84,6 @@ func (c *Client) GetURL(bucketName, objectKey string, params map[string]string) 
 //
 // For details, please refer https://cloud.baidu.com/doc/BOS/API.html#GetBucketLocation.E6.8E.A5.E5.8F.A3
 func (c *Client) GetBucketLocation(bucketName string, option *bce.SignOption) (*Location, error) {
-	bucketName = c.GetBucketName(bucketName)
 	params := map[string]string{"location": ""}
 
 	req, err := bce.NewRequest("GET", c.GetURL(bucketName, "", params), nil)
