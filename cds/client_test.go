@@ -37,12 +37,12 @@ func init() {
 	cdsClient = NewClient(bccConfig)
 	r := mux.NewRouter()
 	// loadbalancer
-	r.HandleFunc("/v1/blb", handleGetVolumes).Methods("GET")
-	r.HandleFunc("/v1/blb", handleCreateVolumes).Methods("POST")
-	r.HandleFunc("/v1/blb/{blbid}", handleDeleteVolume).Methods("DELETE")
-	r.HandleFunc("/v1/blb/{blbid}", handleAttachVolume).Methods("PUT")
-	r.HandleFunc("/v1/blb", handleDetachVolume).Methods("POST")
-	r.HandleFunc("/v1/blb", handleDescribeVolume).Methods("POST")
+	r.HandleFunc("/v2/volume", handleGetVolumes).Methods("GET")
+	r.HandleFunc("/v2/volume", handleCreateVolumes).Methods("POST")
+	r.HandleFunc("/v2/volume/{volumeid}", handleDeleteVolume).Methods("DELETE")
+	r.HandleFunc("/v2/volume/{volumeid}", handleAttachVolume).Methods("PUT")
+	r.HandleFunc("/v2/volume/{volumeid}", handleDetachVolume).Methods("PUT")
+	r.HandleFunc("/v2/volume/{volumeid}", handleDescribeVolume).Methods("GET")
 
 	// start
 	testHTTPServer = httptest.NewServer(r)
