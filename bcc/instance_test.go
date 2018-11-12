@@ -3,41 +3,24 @@ package bcc
 import (
 	"testing"
 
-	"fmt"
-
-	"github.com/baidu/baiducloud-sdk-go/util"
+	"github.com/baidu/baiducloud-sdk-go/billing"
 )
 
-func TestDescribeInstance(t *testing.T) {
-	// ts := httptest.NewServer(InstancesHandler())
-	// defer ts.Close()
-	bccClient.SetDebug(true)
-	// bccClient.Endpoint = ts.URL
-	// ins, err := bccClient.DescribeInstance("i-YufwpQAe", nil)
-	ins, err := bccClient.DescribeInstance("i-7VUJvwqR", nil)
+func TestCreateInstance(t *testing.T) {
+	bccClient := NewTestClient()
+	args := &CreateInstanceArgs{
+		Name:    "sdk-test",
+		ImageID: "m-Sr1bsnee",
+		Billing: billing.Billing{
+			PaymentTiming: "Postpaid",
+		},
+		CPUCount:           1,
+		MemoryCapacityInGB: 1,
+		PurchaseCount:      1,
+	}
+	intances, err := bccClient.CreateInstances(args)
 	if err != nil {
-		t.Error(util.FormatTest("ListInstances", err.Error(), "nil"))
+		t.Errorf("Failed to create image, err: %+v", err)
 	}
-	if ins.InstanceName != "instance-luz2ef4l-1" {
-		t.Error("name error!")
-	}
-}
-
-func TestListInstances(t *testing.T) {
-	// ts := httptest.NewServer(InstancesHandler())
-	// defer ts.Close()
-	// bccClient.Endpoint = ts.URL
-	// bccClient.Endpoint = "bcc.bce-api.baidu.com"
-	bccClient.SetDebug(true)
-	list, err := bccClient.ListInstances(nil)
-
-	if err != nil {
-		t.Error(util.FormatTest("ListInstances", err.Error(), "nil"))
-	}
-	for _, ins := range list {
-		fmt.Println(ins.VpcId)
-		if ins.InstanceId != "i-IyWRtII7" {
-			// t.Error("instanceId error")
-		}
-	}
+	t.Logf("Created instances: %+v", intances)
 }

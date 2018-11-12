@@ -13,4 +13,5 @@
 
 # Others
 .vscode/
+.testdata/
 vendor/
