@@ -6,11 +6,14 @@ baiudcloud-sdk-go is the official BaiudCloud SDK for the Go programming language
 
 ## Installing
 
+Go >= 1.8 is required.
+
 ```bash
-go get -u github.com/baidu/baiducloud-sdk-go
+go get -u github.com/baidu/baiducloud-sdk-go/...
 ```
 
 ## Usage
+
 This example shows a complete example to list all eips in some region.
 
 ```golang
@@ -51,6 +54,7 @@ func main() {
 ```
 
 ## Contributors
+
 - Guoyao Wu @guoyao
 - Guoyan Chen @drinktee
 - Yuxiao Song
@@ -59,4 +63,5 @@ func main() {
 - Weidong Cai @cwdsuzhou
 
 ## License
+
 This SDK is distributed under the [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0).
