@@ -1,4 +1,4 @@
-package bcc
+package cds
 
 import (
 	"fmt"
@@ -7,17 +7,6 @@ import (
 	"github.com/baidu/baiducloud-sdk-go/bce"
 	"github.com/baidu/baiducloud-sdk-go/util"
 )
-
-func TestDeleteVolume(t *testing.T) {
-	// ts := httptest.NewServer(InstancesHandler())
-	// defer ts.Close()
-	// bccClient.SetDebug(true)
-	// bccClient.Endpoint = ts.URL
-	err := bccClient.DeleteVolume("v-MK288vVC")
-	if err != nil {
-		t.Error(util.FormatTest("DeleteVolume", err.Error(), "nil"))
-	}
-}
 
 var expectBill = &bce.Billing{
 	PaymentTiming: "Postpaid",
@@ -64,17 +53,17 @@ func TestDescribeVolume(t *testing.T) {
 	fmt.Println(ins.Id)
 }
 
-var expectAttach = &AttachCDSVolumeArgs{
+var expectAttach = &AttachVolumeArgs{
 	VolumeId:   "v-JCvK3cpI",
 	InstanceId: "i-NN0KeMyw",
 }
 
-func TestAttachCDSVolume(t *testing.T) {
+func TestAttachVolume(t *testing.T) {
 	// ts := httptest.NewServer(EipHandler())
 	// defer ts.Close()
 	// eipClient.Endpoint = ts.URL
 	bccClient.SetDebug(true)
-	att, err := bccClient.AttachCDSVolume(expectAttach)
+	att, err := bccClient.AttachVolume(expectAttach)
 	if err != nil {
 		t.Error(err)
 	} else {
@@ -83,17 +72,17 @@ func TestAttachCDSVolume(t *testing.T) {
 
 }
 
-func TestDetachCDSVolume(t *testing.T) {
+func TestDetachVolume(t *testing.T) {
 	bccClient.SetDebug(true)
-	err := bccClient.DetachCDSVolume(expectAttach)
+	err := bccClient.DetachVolume(expectAttach)
 	if err != nil {
 		t.Error(err)
 	}
 }
 
-func TestDeleteCDSVolume(t *testing.T) {
+func TestDeleteVolume(t *testing.T) {
 	bccClient.SetDebug(true)
-	err := bccClient.DeleteCDS("v-JCvK3cpI")
+	err := bccClient.DeleteVolume("v-JCvK3cpI")
 	if err != nil {
 		t.Error(err)
 	}
