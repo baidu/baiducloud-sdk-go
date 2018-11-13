@@ -20,8 +20,7 @@ func main() {
 		Region:      "bj",
 	}
 
-	eipConf := eip.NewConfig(bceConf)
-	eipClient := eip.NewEIPClient(eipConf)
+	eipClient := eip.NewEIPClient(bceConf)
 	eipClient.SetDebug(true)
 	eips, err := eipClient.GetEips(nil)
 	if err != nil {

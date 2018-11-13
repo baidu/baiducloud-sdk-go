@@ -17,8 +17,7 @@ var bceConfig = &bce.Config{
 	Checksum:    true,
 	Region:      os.Getenv("BOS_REGION"),
 }
-var bccConfig = NewConfig(bceConfig)
-var bccClient = NewClient(bccConfig)
+var bccClient = NewClient(bceConfig)
 
 var (
 	testHTTPServer *httptest.Server

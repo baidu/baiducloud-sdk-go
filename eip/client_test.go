@@ -3,12 +3,10 @@ package eip
 import (
 	"encoding/json"
 	"fmt"
+	"io/ioutil"
 	"net/http"
 	"net/http/httptest"
 	"os"
-
-	"io/ioutil"
-
 	"time"
 
 	"github.com/baidu/baiducloud-sdk-go/bce"
@@ -30,8 +28,7 @@ func init() {
 		Timeout:     5 * time.Second,
 		Region:      os.Getenv("BOS_REGION"),
 	}
-	var bccConfig = NewConfig(bceConfig)
-	eipClient = NewEIPClient(bccConfig)
+	eipClient = NewEIPClient(bceConfig)
 	// eipClient.SetDebug(true)
 	r := mux.NewRouter()
 	r.HandleFunc("/v1/eip", handleGetEips).Methods("GET")
