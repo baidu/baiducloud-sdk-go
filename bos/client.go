@@ -24,11 +24,6 @@ var Endpoint = map[string]string{
 	"hk": "hk.bcebos.com",
 }
 
-// Config contains all options for bos.Client.
-type Config struct {
-	*bce.Config
-}
-
 func NewConfig(config *bce.Config) *Config {
 	return &Config{config}
 }
@@ -38,7 +33,7 @@ type Client struct {
 	*bce.Client
 }
 
-func NewClient(config *Config) *Client {
+func NewClient(config *bce.Config) *Client {
 	bceClient := bce.NewClient(config.Config)
 	return &Client{bceClient}
 }

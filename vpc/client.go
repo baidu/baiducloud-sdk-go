@@ -11,11 +11,6 @@ var Endpoint = map[string]string{
 	"su": "bcc.su.baidubce.com",
 }
 
-// Config contains all options for bos.Client.
-type Config struct {
-	*bce.Config
-}
-
 func NewConfig(config *bce.Config) *Config {
 	return &Config{config}
 }
@@ -25,7 +20,7 @@ type Client struct {
 	*bce.Client
 }
 
-func NewVPCClient(config *Config) *Client {
+func NewVPCClient(config *bce.Config) *Client {
 	bceClient := bce.NewClient(config.Config)
 	return &Client{bceClient}
 }
