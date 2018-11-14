@@ -120,9 +120,9 @@ func TestGetETag(t *testing.T) {
 func TestGetCommonPrefixes(t *testing.T) {
 	response := &ListObjectsResponse{
 		CommonPrefixes: []map[string]string{
-			map[string]string{"prefix": "prefix-0"},
-			map[string]string{"prefix": "prefix-1"},
-			map[string]string{"prefix": "prefix-2"},
+			{"prefix": "prefix-0"},
+			{"prefix": "prefix-1"},
+			{"prefix": "prefix-2"},
 		},
 	}
 
@@ -217,9 +217,9 @@ func TestSort(t *testing.T) {
 		ObjectKey:  "test-object-key",
 		UploadId:   "test-upload-id",
 		Parts: []PartSummary{
-			PartSummary{PartNumber: 2},
-			PartSummary{PartNumber: 3},
-			PartSummary{PartNumber: 1},
+			{PartNumber: 2},
+			{PartNumber: 3},
+			{PartNumber: 1},
 		},
 	}
 

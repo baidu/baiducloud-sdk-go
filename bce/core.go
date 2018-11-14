@@ -90,6 +90,17 @@ func NewConfig(credentials *Credentials) *Config {
 	}
 }
 
+// NewConfigWithParams creates a new config from filled info
+func NewConfigWithParams(accessKeyID, secretAccessKey, region string) *Config {
+	return &Config{
+		Credentials: &Credentials{
+			AccessKeyID:     accessKeyID,
+			SecretAccessKey: secretAccessKey,
+		},
+		Region: Region[region],
+	}
+}
+
 // NewConfigFromFile create a new config from cloud config.
 func NewConfigFromFile(filePath string) (*Config, error) {
 	bytes, err := ioutil.ReadFile(filePath)
@@ -322,7 +333,7 @@ func (option *SignOption) signedHeadersToString() string {
 	if option.headersToSignSpecified {
 		headers = append(headers, option.HeadersToSign...)
 	} else {
-		for key, _ := range option.Headers {
+		for key := range option.Headers {
 			if isCanonicalHeader(key) {
 				headers = append(headers, key)
 			}

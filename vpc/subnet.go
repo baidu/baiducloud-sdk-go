@@ -58,7 +58,7 @@ func (c *Client) CreateSubnet(args *CreateSubnetArgs) (string, error) {
 	if err != nil {
 		return "", err
 	}
-	req, err := bce.NewRequest("POST", c.GetURL("v1/vpc/subnet", params), bytes.NewBuffer(postContent))
+	req, err := bce.NewRequest("POST", c.GetURL("v1/subnet", params), bytes.NewBuffer(postContent))
 	if err != nil {
 		return "", err
 	}
@@ -81,7 +81,7 @@ func (c *Client) CreateSubnet(args *CreateSubnetArgs) (string, error) {
 
 // 查询指定VPC的所有子网列表信息
 func (c *Client) ListSubnet(params map[string]string) ([]*Subnet, error) {
-	req, err := bce.NewRequest("GET", c.GetURL("v1/vpc/subnet", params), nil)
+	req, err := bce.NewRequest("GET", c.GetURL("v1/subnet", params), nil)
 	if err != nil {
 		return nil, err
 	}
@@ -107,7 +107,7 @@ func (c *Client) DescribeSubnet(subnetId string) (*Subnet, error) {
 	if len(subnetId) == 0 {
 		return nil, fmt.Errorf("DescribeSubnet failed, subnetId must not be empty")
 	}
-	req, err := bce.NewRequest("GET", c.GetURL("v1/vpc/subnet/"+subnetId, nil), nil)
+	req, err := bce.NewRequest("GET", c.GetURL("v1/subnet/"+subnetId, nil), nil)
 	if err != nil {
 		return nil, err
 	}

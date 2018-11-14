@@ -229,9 +229,9 @@ func TestSetBucketAcl(t *testing.T) {
 	around(t, method, bucketNamePrefix, "", func(bucketName string) {
 		bucketAcl := BucketAcl{
 			AccessControlList: []Grant{
-				Grant{
+				{
 					Grantee: []BucketGrantee{
-						BucketGrantee{Id: "ef5a4b19192f4931adcf0e12f82795e2"},
+						{Id: "ef5a4b19192f4931adcf0e12f82795e2"},
 					},
 					Permission: []string{"FULL_CONTROL"},
 				},
@@ -1214,14 +1214,14 @@ func TestSetBucketCors(t *testing.T) {
 	around(t, method, bucketNamePrefix, "", func(bucketName string) {
 		bucketCors := BucketCors{
 			CorsConfiguration: []BucketCorsItem{
-				BucketCorsItem{
+				{
 					AllowedOrigins:       []string{"http://*", "https://*"},
 					AllowedMethods:       []string{"GET", "HEAD", "POST", "PUT"},
 					AllowedHeaders:       []string{"*"},
 					AllowedExposeHeaders: []string{"ETag", "x-bce-request-id", "Content-Type"},
 					MaxAgeSeconds:        3600,
 				},
-				BucketCorsItem{
+				{
 					AllowedOrigins:       []string{"http://www.example.com", "www.example2.com"},
 					AllowedMethods:       []string{"GET", "HEAD", "DELETE"},
 					AllowedHeaders:       []string{"Authorization", "x-bce-test", "x-bce-test2"},
@@ -1244,14 +1244,14 @@ func TestGetBucketCors(t *testing.T) {
 	around(t, method, bucketNamePrefix, "", func(bucketName string) {
 		bucketCors := BucketCors{
 			CorsConfiguration: []BucketCorsItem{
-				BucketCorsItem{
+				{
 					AllowedOrigins:       []string{"http://*", "https://*"},
 					AllowedMethods:       []string{"GET", "HEAD", "POST", "PUT"},
 					AllowedHeaders:       []string{"*"},
 					AllowedExposeHeaders: []string{"ETag", "x-bce-request-id", "Content-Type"},
 					MaxAgeSeconds:        3600,
 				},
-				BucketCorsItem{
+				{
 					AllowedOrigins:       []string{"http://www.example.com", "www.example2.com"},
 					AllowedMethods:       []string{"GET", "HEAD", "DELETE"},
 					AllowedHeaders:       []string{"Authorization", "x-bce-test", "x-bce-test2"},
@@ -1300,14 +1300,14 @@ func TestOptionsObject(t *testing.T) {
 
 		bucketCors := BucketCors{
 			CorsConfiguration: []BucketCorsItem{
-				BucketCorsItem{
+				{
 					AllowedOrigins:       []string{"http://*", "https://*"},
 					AllowedMethods:       []string{"GET", "HEAD", "POST", "PUT"},
 					AllowedHeaders:       []string{"*"},
 					AllowedExposeHeaders: []string{"ETag", "x-bce-request-id", "Content-Type"},
 					MaxAgeSeconds:        3600,
 				},
-				BucketCorsItem{
+				{
 					AllowedOrigins:       []string{"http://www.example.com", "www.example2.com"},
 					AllowedMethods:       []string{"GET", "HEAD", "DELETE"},
 					AllowedHeaders:       []string{"Authorization", "x-bce-test", "x-bce-test2"},
@@ -1433,7 +1433,7 @@ func TestSetBucketLifecycle(t *testing.T) {
 	around(t, method, bucketNamePrefix, "", func(bucketName string) {
 		bucketLifecycle := BucketLifecycle{
 			Rule: []BucketLifecycleItem{
-				BucketLifecycleItem{
+				{
 					Id:       "1",
 					Status:   "disabled",
 					Resource: []string{bucketName + "/*"},
@@ -1442,7 +1442,7 @@ func TestSetBucketLifecycle(t *testing.T) {
 					},
 					Action: BucketLifecycleItemAction{Name: "DeleteObject"},
 				},
-				BucketLifecycleItem{
+				{
 					Id:       "2",
 					Status:   "enabled",
 					Resource: []string{bucketName + "/test/*"},
@@ -1451,7 +1451,7 @@ func TestSetBucketLifecycle(t *testing.T) {
 					},
 					Action: BucketLifecycleItemAction{Name: "Transition", StorageClass: "STANDARD_IA"},
 				},
-				BucketLifecycleItem{
+				{
 					Id:       "3",
 					Status:   "enabled",
 					Resource: []string{bucketName + "/multi/*"},
@@ -1476,7 +1476,7 @@ func TestGetBucketLifecycle(t *testing.T) {
 	around(t, method, bucketNamePrefix, "", func(bucketName string) {
 		bucketLifecycle := BucketLifecycle{
 			Rule: []BucketLifecycleItem{
-				BucketLifecycleItem{
+				{
 					Id:       "1",
 					Status:   "disabled",
 					Resource: []string{bucketName + "/*"},
@@ -1485,7 +1485,7 @@ func TestGetBucketLifecycle(t *testing.T) {
 					},
 					Action: BucketLifecycleItemAction{Name: "DeleteObject"},
 				},
-				BucketLifecycleItem{
+				{
 					Id:       "2",
 					Status:   "enabled",
 					Resource: []string{bucketName + "/test/*"},
@@ -1494,7 +1494,7 @@ func TestGetBucketLifecycle(t *testing.T) {
 					},
 					Action: BucketLifecycleItemAction{Name: "Transition", StorageClass: "STANDARD_IA"},
 				},
-				BucketLifecycleItem{
+				{
 					Id:       "3",
 					Status:   "enabled",
 					Resource: []string{bucketName + "/multi/*"},
@@ -1537,7 +1537,7 @@ func TestDeleteBucketLifecycle(t *testing.T) {
 	around(t, method, bucketNamePrefix, "", func(bucketName string) {
 		bucketLifecycle := BucketLifecycle{
 			Rule: []BucketLifecycleItem{
-				BucketLifecycleItem{
+				{
 					Id:       "1",
 					Status:   "disabled",
 					Resource: []string{bucketName + "/*"},
@@ -1546,7 +1546,7 @@ func TestDeleteBucketLifecycle(t *testing.T) {
 					},
 					Action: BucketLifecycleItemAction{Name: "DeleteObject"},
 				},
-				BucketLifecycleItem{
+				{
 					Id:       "2",
 					Status:   "enabled",
 					Resource: []string{bucketName + "/test/*"},
@@ -1555,7 +1555,7 @@ func TestDeleteBucketLifecycle(t *testing.T) {
 					},
 					Action: BucketLifecycleItemAction{Name: "Transition", StorageClass: "STANDARD_IA"},
 				},
-				BucketLifecycleItem{
+				{
 					Id:       "3",
 					Status:   "enabled",
 					Resource: []string{bucketName + "/multi/*"},
@@ -1604,7 +1604,7 @@ func TestPubObjectBySTS(t *testing.T) {
 			DurationSeconds: 600,
 			Id:              "ef5a4b19192f4931adcf0e12f82795e2",
 			AccessControlList: []bce.AccessControlListItem{
-				bce.AccessControlListItem{
+				{
 					Service:    "bce:bos",
 					Region:     bceConfig.GetRegion(),
 					Effect:     "Allow",
