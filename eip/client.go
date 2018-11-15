@@ -14,7 +14,7 @@ type Client struct {
 }
 
 func NewEIPClient(config *bce.Config) *Client {
-	bceClient := bce.NewClient(config.Config)
+	bceClient := bce.NewClient(config)
 	return &Client{bceClient}
 }
 

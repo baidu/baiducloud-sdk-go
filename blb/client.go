@@ -15,8 +15,8 @@ type Client struct {
 	*bce.Client
 }
 
-func NewBLBClient(config **bce.Config) *Client {
-	bceClient := bce.NewClient(config.Config)
+func NewBLBClient(config *bce.Config) *Client {
+	bceClient := bce.NewClient(config)
 	return &Client{bceClient}
 }
 

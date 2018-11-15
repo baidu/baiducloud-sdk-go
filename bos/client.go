@@ -30,7 +30,7 @@ type Client struct {
 }
 
 func NewClient(config *bce.Config) *Client {
-	bceClient := bce.NewClient(config.Config)
+	bceClient := bce.NewClient(config)
 	return &Client{bceClient}
 }
 
