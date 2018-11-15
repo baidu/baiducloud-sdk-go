@@ -25,8 +25,7 @@ var bceConfig = &bce.Config{
 	Checksum:    true,
 	Region:      os.Getenv("BOS_REGION"),
 }
-var bosConfig = NewConfig(bceConfig)
-var bosClient = NewClient(bosConfig)
+var bosClient = NewClient(bceConfig)
 
 func TestCheckBucketName(t *testing.T) {
 	defer func() {

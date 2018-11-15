@@ -11,10 +11,6 @@ var Endpoint = map[string]string{
 	"su": "bcc.su.baidubce.com",
 }
 
-func NewConfig(config *bce.Config) *Config {
-	return &Config{config}
-}
-
 // Client is the bos client implemention for Baidu Cloud BOS API.
 type Client struct {
 	*bce.Client
