@@ -18,8 +18,7 @@ var testClient *Client
 func NewTestClient() *Client {
 	if testClient == nil {
 		config := bce.NewConfigWithParams(TestAccessKeyID, TestSecretAccessKey, TestRegion)
-		bccConfig := NewConfig(config)
-		testClient = NewClient(bccConfig)
+		testClient = NewClient(config)
 	}
 	return testClient
 }

@@ -33,8 +33,7 @@ func init() {
 		Checksum:    true,
 		Region:      os.Getenv("CDS_REGION"),
 	}
-	var bccConfig = NewConfig(bceConfig)
-	cdsClient = NewClient(bccConfig)
+	cdsClient = NewClient(bceConfig)
 	r := mux.NewRouter()
 	// loadbalancer
 	r.HandleFunc("/v2/volume", handleGetVolumes).Methods("GET")
