@@ -8,22 +8,13 @@ var Endpoint = map[string]string{
 	"gz": "eip.gz.baidubce.com",
 }
 
-// Config contains all options for bos.Client.
-type Config struct {
-	*bce.Config
-}
-
-func NewConfig(config *bce.Config) *Config {
-	return &Config{config}
-}
-
 // Client is the bos client implemention for Baidu Cloud BOS API.
 type Client struct {
 	*bce.Client
 }
 
-func NewEIPClient(config *Config) *Client {
-	bceClient := bce.NewClient(config.Config)
+func NewEIPClient(config *bce.Config) *Client {
+	bceClient := bce.NewClient(config)
 	return &Client{bceClient}
 }
 

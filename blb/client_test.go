@@ -26,8 +26,7 @@ func init() {
 		Checksum:    true,
 		Region:      os.Getenv("BOS_REGION"),
 	}
-	var bccConfig = NewConfig(bceConfig)
-	blbClient = NewBLBClient(bccConfig)
+	blbClient = NewBLBClient(bceConfig)
 	r := mux.NewRouter()
 	// loadbalancer
 	r.HandleFunc("/v1/blb", handleGetBLB).Methods("GET")

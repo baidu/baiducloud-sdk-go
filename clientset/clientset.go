@@ -64,13 +64,9 @@ func NewFromConfig(cfg *bce.Config) (*Clientset, error) {
 		return nil, fmt.Errorf("config cannot be nil")
 	}
 	var cs Clientset
-	bccConfig := bcc.NewConfig(cfg)
-	blbConfig := blb.NewConfig(cfg)
-	eipConfig := eip.NewConfig(cfg)
-	vpcConfig := vpc.NewConfig(cfg)
-	cs.BccClient = bcc.NewClient(bccConfig)
-	cs.BlbClient = blb.NewBLBClient(blbConfig)
-	cs.EipClient = eip.NewEIPClient(eipConfig)
-	cs.VpcClient = vpc.NewVPCClient(vpcConfig)
+	cs.BccClient = bcc.NewClient(cfg)
+	cs.BlbClient = blb.NewBLBClient(cfg)
+	cs.EipClient = eip.NewEIPClient(cfg)
+	cs.VpcClient = vpc.NewVPCClient(cfg)
 	return &cs, nil
 }
