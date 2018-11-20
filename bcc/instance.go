@@ -211,3 +211,16 @@ func (c *Client) DescribeInstance(instanceID string, option *bce.SignOption) (*I
 
 	return &ins.Ins, nil
 }
+
+// DeleteInstance delete a instance
+func (c *Client) DeleteInstance(instanceID string, option *bce.SignOption) error {
+	req, err := bce.NewRequest("DELETE", c.GetURL("v2/instance"+"/"+instanceID, nil), nil)
+	if err != nil {
+		return err
+	}
+	_, err = c.SendRequest(req, option)
+	if err != nil {
+		return err
+	}
+	return nil
+}
