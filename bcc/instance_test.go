@@ -14,6 +14,7 @@ func TestCreateInstance(t *testing.T) {
 		Billing: billing.Billing{
 			PaymentTiming: "Postpaid",
 		},
+		AdminPass:          "thisistestpw123!",
 		CPUCount:           1,
 		MemoryCapacityInGB: 1,
 		PurchaseCount:      1,
