@@ -22,6 +22,8 @@ var Endpoint = map[string]string{
 	"bj": "bj.bcebos.com",
 	"gz": "gz.bcebos.com",
 	"hk": "hk.bcebos.com",
+	"su": "su.bcebos.com",
+	"bd": "bd.bcebos.com",
 }
 
 // Client is the bos client implemention for Baidu Cloud BOS API.
