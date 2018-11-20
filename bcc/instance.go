@@ -119,7 +119,7 @@ func (args *CreateInstanceArgs) validate() error {
 }
 
 // CreateInstances create instances according to args
-func (c *Client) CreateInstances(args *CreateInstanceArgs) ([]string, error) {
+func (c *Client) CreateInstances(args *CreateInstanceArgs, option *bce.SignOption) ([]string, error) {
 	instanceIDs := []string{}
 	if err := args.validate(); err != nil {
 		return instanceIDs, err
@@ -135,7 +135,7 @@ func (c *Client) CreateInstances(args *CreateInstanceArgs) ([]string, error) {
 	if err != nil {
 		return instanceIDs, err
 	}
-	resp, err := c.SendRequest(req, nil)
+	resp, err := c.SendRequest(req, option)
 	if err != nil {
 		return instanceIDs, err
 	}

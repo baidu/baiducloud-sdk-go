@@ -18,7 +18,7 @@ func TestCreateInstance(t *testing.T) {
 		MemoryCapacityInGB: 1,
 		PurchaseCount:      1,
 	}
-	intances, err := bccClient.CreateInstances(args)
+	intances, err := bccClient.CreateInstances(args, nil)
 	if err != nil {
 		t.Errorf("Failed to create image, err: %+v", err)
 	}
