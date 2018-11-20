@@ -23,4 +23,16 @@ func TestCreateInstance(t *testing.T) {
 		t.Errorf("Failed to create image, err: %+v", err)
 	}
 	t.Logf("Created instances: %+v", intances)
+
+}
+
+func TestDeleteIntsance(t *testing.T) {
+	bccClient := NewTestClient()
+	InstanceID := "i-eoWGc90b"
+	error := bccClient.DeleteInstance(InstanceID, nil)
+	if error != nil {
+		t.Errorf("Failed to delete instance: %+v, err: %+v", InstanceID, error)
+	} else {
+		t.Logf("delete instances %+v successfully", InstanceID)
+	}
 }
