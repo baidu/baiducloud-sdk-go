@@ -8,6 +8,7 @@ import (
 	"github.com/baidu/baiducloud-sdk-go/bce"
 	"github.com/baidu/baiducloud-sdk-go/billing"
 	"github.com/baidu/baiducloud-sdk-go/cds"
+	"github.com/baidu/baiducloud-sdk-go/util"
 )
 
 const (
@@ -127,6 +128,16 @@ func (c *Client) CreateInstances(args *CreateInstanceArgs, option *bce.SignOptio
 	params := map[string]string{
 		"clientToken": c.GenerateClientToken(),
 	}
+
+	// ref: https://cloud.baidu.com/doc/BCC/API.html#.7A.E6.31.D8.94.C1.A1.C2.1A.8D.92.ED.7F.60.7D.AF
+	if len(args.AdminPass) != 0 {
+		encrypted, err := util.AesECBEncryptHex(c.SecretAccessKey, args.AdminPass)
+		if err != nil {
+			return instanceIDs, err
+		}
+		args.AdminPass = encrypted
+	}
+
 	postContent, err := json.Marshal(args)
 	if err != nil {
 		return instanceIDs, err

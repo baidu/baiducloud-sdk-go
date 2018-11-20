@@ -2,6 +2,7 @@ package util
 
 import (
 	"bytes"
+	"crypto/aes"
 	"crypto/hmac"
 	"crypto/md5"
 	srand "crypto/rand"
@@ -70,6 +71,32 @@ func HmacSha256Hex(key, message string) string {
 	mac := hmac.New(sha256.New, []byte(key))
 	mac.Write([]byte(message))
 	return hex.EncodeToString(mac.Sum(nil))
+}
+
+func PKCS7Padding(ciphertext []byte, blockSize int) []byte {
+	padding := blockSize - len(ciphertext)%blockSize
+	padtext := bytes.Repeat([]byte{byte(padding)}, padding)
+	return append(ciphertext, padtext...)
+}
+
+// AesECBEncryptHex returns an AES encrypted string
+func AesECBEncryptHex(key, message string) (string, error) {
+	// ECB is left out intentionally because it's insecure, check https://github.com/golang/go/issues/5597
+	if len(key) < 16 {
+		return "", fmt.Errorf("Invalid SecretKey")
+	}
+	keyBytes := []byte(key[:16])
+	msgBytes := []byte(message)
+	block, err := aes.NewCipher(keyBytes)
+	if err != nil {
+		return "", err
+	}
+	blockSize := block.BlockSize()
+	msgBytes = PKCS7Padding(msgBytes, blockSize)
+	blockMode := NewECBEncrypter(block)
+	crypted := make([]byte, len(msgBytes))
+	blockMode.CryptBlocks(crypted, msgBytes)
+	return hex.EncodeToString(crypted), nil
 }
 
 // GetMD5 gets the MD5 value from data.

@@ -8,7 +8,7 @@ import (
 
 // Modify with your AccessKeyID and SecretAccessKey
 var (
-	TestAccessKeyID     = os.Getenv("AccessKeyId")
+	TestAccessKeyID     = os.Getenv("AccessKeyID")
 	TestSecretAccessKey = os.Getenv("SecretAccessKey")
 	TestRegion          = os.Getenv("Region")
 )
