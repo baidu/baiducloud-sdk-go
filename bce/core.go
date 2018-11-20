@@ -41,6 +41,8 @@ var Region = map[string]string{
 	"bj": "bj",
 	"gz": "gz",
 	"hk": "hk",
+	"su": "su",
+	"bd": "bd",
 }
 
 type Credentials struct {

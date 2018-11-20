@@ -6,6 +6,9 @@ import "github.com/baidu/baiducloud-sdk-go/bce"
 var Endpoint = map[string]string{
 	"bj": "eip.bj.baidubce.com",
 	"gz": "eip.gz.baidubce.com",
+	"bd": "eip.bd.baidubce.com",
+	"su": "eip.su.baidubce.com",
+	"hk": "eip.hkg.baidubce.com",
 }
 
 // Client is the bos client implemention for Baidu Cloud BOS API.

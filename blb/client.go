@@ -8,6 +8,9 @@ import (
 var Endpoint = map[string]string{
 	"bj": "blb.bj.baidubce.com",
 	"gz": "blb.gz.baidubce.com",
+	"su": "blb.su.baidubce.com",
+	"hk": "blb.hkg.baidubce.com",
+	"bd": "blb.bd.baidubce.com",
 }
 
 // Client is the bos client implemention for Baidu Cloud BOS API.
