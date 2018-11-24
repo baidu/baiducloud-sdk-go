@@ -8,6 +8,7 @@ import (
 	"github.com/baidu/baiducloud-sdk-go/bce"
 	"github.com/baidu/baiducloud-sdk-go/billing"
 	"github.com/baidu/baiducloud-sdk-go/cds"
+	"github.com/baidu/baiducloud-sdk-go/eip"
 	"github.com/baidu/baiducloud-sdk-go/util"
 )
 
@@ -194,28 +195,23 @@ func (c *Client) ListInstances(option *bce.SignOption) ([]Instance, error) {
 
 // DescribeInstance describe a instance
 func (c *Client) DescribeInstance(instanceID string, option *bce.SignOption) (*Instance, error) {
-
 	req, err := bce.NewRequest("GET", c.GetURL("v2/instance"+"/"+instanceID, nil), nil)
-
 	if err != nil {
 		return nil, err
 	}
 
 	resp, err := c.SendRequest(req, option)
-
 	if err != nil {
 		return nil, err
 	}
 
 	bodyContent, err := resp.GetBodyContent()
-
 	if err != nil {
 		return nil, err
 	}
 
 	var ins GetInstanceResponse
 	err = json.Unmarshal(bodyContent, &ins)
-
 	if err != nil {
 		return nil, err
 	}
@@ -225,6 +221,22 @@ func (c *Client) DescribeInstance(instanceID string, option *bce.SignOption) (*I
 
 // DeleteInstance delete a instance
 func (c *Client) DeleteInstance(instanceID string, option *bce.SignOption) error {
+	instance, err := c.DescribeInstance(instanceID, nil)
+	if err != nil {
+		return err
+	}
+
+	// release eip if necessary
+	if len(instance.PublicIP) != 0 {
+		eipClient := eip.NewEIPClient(c.Config)
+		eipArg := &eip.EipArgs{
+			Ip: instance.PublicIP,
+		}
+		// not return err even if failed
+		eipClient.UnbindEip(eipArg)
+		eipClient.DeleteEip(eipArg)
+	}
+
 	req, err := bce.NewRequest("DELETE", c.GetURL("v2/instance"+"/"+instanceID, nil), nil)
 	if err != nil {
 		return err
