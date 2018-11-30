@@ -1,6 +1,6 @@
 # BaiduCloud SDK for Go
-
-[![Build Status](https://travis-ci.org/baidu/baiducloud-sdk-go.svg?branch=develop)](https://travis-ci.org/baidu/baiducloud-sdk-go)
+[![GoDoc](https://godoc.org/github.com/baidu/baiducloud-sdk-go?status.svg)](https://godoc.org/github.com/baidu/baiducloud-sdk-go)
+[![Build Status](https://travis-ci.org/baidu/baiducloud-sdk-go.svg?branch=master)](https://travis-ci.org/baidu/baiducloud-sdk-go)
 [![Go Report Card](https://goreportcard.com/badge/github.com/baidu/baiducloud-sdk-go)](https://goreportcard.com/report/github.com/baidu/baiducloud-sdk-go)
 
 > This sdk is still under development and may be changed frequently.
