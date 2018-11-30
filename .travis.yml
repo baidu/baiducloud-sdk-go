@@ -1,0 +1,15 @@
+language: go
+sudo: false
+
+matrix:
+  include:
+    - go: 1.8
+    - go: tip
+install:
+  - go get -u github.com/golang/dep/cmd/dep
+script:
+  - dep ensure -v
+  - go get ./...
+  - go build ./...
+  - diff -u <(echo -n) <(gofmt -d -s $(go list ./... | grep -v vendor | awk -F '/' '{print $4}'))
+  - go vet $(go list ./... | grep -v /vendor/)
