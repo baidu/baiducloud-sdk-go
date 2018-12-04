@@ -20,10 +20,17 @@ const MIN_PART_NUMBER int = 1
 // MAX_PART_NUMBER is the max part number for multipart upload.
 const MAX_PART_NUMBER int = 10000
 
+// STORAGE_CLASS is the storage type of BOS object
+//
+// For details, please refer https://cloud.baidu.com/doc/BOS/API.html#PutObject.E6.8E.A5.E5.8F.A3
+const STORAGE_CLASS_STANDARD = "STANDARD"
+const STORAGE_CLASS_STANDARD_IA = "STANDARD_IA"
+const STORAGE_CLASS_COLD = "COLD"
+
 // UserDefinedMetadataPrefix is the prefix of custom metadata.
 //
 // For details, please refer https://cloud.baidu.com/doc/BOS/API.html#PutObject.E6.8E.A5.E5.8F.A3
-var UserDefinedMetadataPrefix = "x-bce-meta-"
+const UserDefinedMetadataPrefix = "x-bce-meta-"
 
 // CannedAccessControlList contains all authority levels of BOS.
 //
@@ -87,6 +94,7 @@ type ObjectMetadata struct {
 	ContentRange string
 	ETag         string
 	UserMetadata map[string]string
+	StorageClass string
 }
 
 // NewObjectMetadataFromHeader generates a bos.ObjectMetadata instance from a http.Header instance.
@@ -121,6 +129,8 @@ func NewObjectMetadataFromHeader(h http.Header) *ObjectMetadata {
 					objectMetadata.UserMetadata = make(map[string]string, 0)
 				}
 				objectMetadata.UserMetadata[key] = h[key][0]
+			} else if lowerKey == "x-bce-storage-class" {
+				objectMetadata.StorageClass = value
 			}
 		}
 	}
@@ -164,6 +174,12 @@ func (metadata *ObjectMetadata) mergeToSignOption(option *bce.SignOption) {
 
 	if metadata.ContentSha256 != "" {
 		option.AddHeader("x-bce-content-sha256", metadata.ContentSha256)
+	}
+
+	if metadata.StorageClass == STORAGE_CLASS_STANDARD ||
+		metadata.StorageClass == STORAGE_CLASS_STANDARD_IA ||
+		metadata.StorageClass == STORAGE_CLASS_COLD {
+		option.AddHeader("x-bce-storage-class", metadata.StorageClass)
 	}
 
 	for key, value := range metadata.UserMetadata {

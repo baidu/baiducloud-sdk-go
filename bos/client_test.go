@@ -258,24 +258,47 @@ func TestPutObject(t *testing.T) {
 		_, err := bosClient.PutObject(bucketName, objectKey, str, metadata, nil)
 		if err != nil {
 			t.Error(util.FormatTest(method, err.Error(), "nil"))
+		} else {
+			object, err := bosClient.GetObject(bucketName, objectKey, nil)
+			if err != nil {
+				t.Error(util.FormatTest(method, err.Error(), "nil"))
+			} else if object.ObjectMetadata.StorageClass != STORAGE_CLASS_STANDARD {
+				t.Error(util.FormatTest(method, object.ObjectMetadata.StorageClass, STORAGE_CLASS_STANDARD))
+			}
 		}
 	})
 
 	byteArray := []byte(str)
 	objectKey = "put-object-from-bytes.txt"
 	around(t, method, bucketNamePrefix, objectKey, func(bucketName string) {
+		metadata.StorageClass = STORAGE_CLASS_STANDARD_IA
 		_, err := bosClient.PutObject(bucketName, objectKey, byteArray, metadata, nil)
 		if err != nil {
 			t.Error(util.FormatTest(method, err.Error(), "nil"))
+		} else {
+			object, err := bosClient.GetObject(bucketName, objectKey, nil)
+			if err != nil {
+				t.Error(util.FormatTest(method, err.Error(), "nil"))
+			} else if object.ObjectMetadata.StorageClass != STORAGE_CLASS_STANDARD_IA {
+				t.Error(util.FormatTest(method, object.ObjectMetadata.StorageClass, STORAGE_CLASS_STANDARD_IA))
+			}
 		}
 	})
 
 	reader := strings.NewReader(str)
 	objectKey = "put-object-from-reader.txt"
 	around(t, method, bucketNamePrefix, objectKey, func(bucketName string) {
+		metadata.StorageClass = STORAGE_CLASS_COLD
 		_, err := bosClient.PutObject(bucketName, objectKey, reader, metadata, nil)
 		if err != nil {
 			t.Error(util.FormatTest(method, err.Error(), "nil"))
+		} else {
+			object, err := bosClient.GetObject(bucketName, objectKey, nil)
+			if err != nil {
+				t.Error(util.FormatTest(method, err.Error(), "nil"))
+			} else if object.ObjectMetadata.StorageClass != STORAGE_CLASS_COLD {
+				t.Error(util.FormatTest(method, object.ObjectMetadata.StorageClass, STORAGE_CLASS_COLD))
+			}
 		}
 	})
 
@@ -345,7 +368,8 @@ func TestDeleteMultipleObjects(t *testing.T) {
 			if err != nil {
 				t.Error(util.FormatTest(method, err.Error(), "nil"))
 			} else if len(deleteMultipleObjectsResponse.Errors) != 1 {
-				t.Error(util.FormatTest(method, strconv.Itoa(len(deleteMultipleObjectsResponse.Errors)), strconv.Itoa(1)))
+				t.Error(util.FormatTest(method,
+					strconv.Itoa(len(deleteMultipleObjectsResponse.Errors)), strconv.Itoa(1)))
 			}
 
 			err = bosClient.DeleteBucket(bucketName, nil)
@@ -681,19 +705,27 @@ func TestGetObjectMetadata(t *testing.T) {
 
 	around(t, method, bucketNamePrefix, objectKey, func(bucketName string) {
 		_, err := bosClient.PutObject(bucketName, objectKey, str, nil, nil)
-
 		if err != nil {
 			t.Error(util.FormatTest(method, err.Error(), "nil"))
 		} else {
 			objectMetadata, err := bosClient.GetObjectMetadata(bucketName, objectKey, nil)
-
 			if err != nil {
 				t.Error(util.FormatTest(method, err.Error(), "nil"))
 			} else if objectMetadata.ETag == "" {
 				t.Error(util.FormatTest(method, "etag is empty", "non empty etag"))
 			}
+
+			objectMetadata, err = bosClient.GetObjectMetadata(bucketName, "not-exist-object", nil)
+			if err == nil {
+				t.Error(util.FormatTest(method, "nil", "error"))
+			}
 		}
 	})
+
+	_, err := bosClient.GetObjectMetadata(bucketNamePrefix+"-not-exist", "not-exist-object", nil)
+	if err == nil {
+		t.Error(util.FormatTest(method, "nil", "error"))
+	}
 }
 
 func TestGeneratePresignedUrl(t *testing.T) {
