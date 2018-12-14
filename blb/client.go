@@ -13,7 +13,7 @@ var Endpoint = map[string]string{
 	"bd": "blb.bd.baidubce.com",
 }
 
-// Client is the bos client implemention for Baidu Cloud BOS API.
+// Client is the BLB client implemention for Baidu Cloud BLB API.
 type Client struct {
 	*bce.Client
 }
@@ -23,7 +23,7 @@ func NewBLBClient(config *bce.Config) *Client {
 	return &Client{bceClient}
 }
 
-// GetURL generates the full URL of http request for Baidu Cloud BOS API.
+// GetURL generates the full URL of http request for Baidu Cloud BLB API.
 func (c *Client) GetURL(version string, params map[string]string) string {
 	host := c.Endpoint
 	if host == "" {

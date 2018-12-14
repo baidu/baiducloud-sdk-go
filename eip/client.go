@@ -11,7 +11,7 @@ var Endpoint = map[string]string{
 	"hk": "eip.hkg.baidubce.com",
 }
 
-// Client is the bos client implemention for Baidu Cloud BOS API.
+// Client is the EIP client implemention for Baidu Cloud EIP API.
 type Client struct {
 	*bce.Client
 }
@@ -21,7 +21,7 @@ func NewEIPClient(config *bce.Config) *Client {
 	return &Client{bceClient}
 }
 
-// GetURL generates the full URL of http request for Baidu Cloud BOS API.
+// GetURL generates the full URL of http request for Baidu Cloud EIP API.
 func (c *Client) GetURL(version string, params map[string]string) string {
 	host := c.Endpoint
 	if host == "" {

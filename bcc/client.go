@@ -13,7 +13,7 @@ var Endpoint = map[string]string{
 	"hk": "bcc.hkg.baidubce.com",
 }
 
-// Client is the bos client implemention for Baidu Cloud BOS API.
+// Client is the BCC client implemention for Baidu Cloud BCC API.
 type Client struct {
 	*bce.Client
 }
@@ -23,7 +23,7 @@ func NewClient(config *bce.Config) *Client {
 	return &Client{bceClient}
 }
 
-// GetURL generates the full URL of http request for Baidu Cloud BOS API.
+// GetURL generates the full URL of http request for Baidu Cloud BCC API.
 func (c *Client) GetURL(objectKey string, params map[string]string) string {
 	host := c.Endpoint
 
