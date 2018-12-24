@@ -44,7 +44,7 @@ func (args *ListRouteArgs) validate() error {
 }
 
 // ListRouteTable list all routes
-func (c *Client) ListRouteTable(args *ListRouteArgs) ([]RouteRule, error) {
+func (c *Client) ListRouteTable(args *ListRouteArgs, option *bce.SignOption) ([]RouteRule, error) {
 	err := args.validate()
 	if err != nil {
 		return nil, err
@@ -57,7 +57,7 @@ func (c *Client) ListRouteTable(args *ListRouteArgs) ([]RouteRule, error) {
 	if err != nil {
 		return nil, err
 	}
-	resp, err := c.SendRequest(req, nil)
+	resp, err := c.SendRequest(req, option)
 	if err != nil {
 		return nil, err
 	}
@@ -77,7 +77,7 @@ func (c *Client) ListRouteTable(args *ListRouteArgs) ([]RouteRule, error) {
 
 // DeleteRoute delete a route
 // http://gollum.baidu.com/Logical-Network-API#删除路由规则
-func (c *Client) DeleteRoute(routeID string) error {
+func (c *Client) DeleteRoute(routeID string, option *bce.SignOption) error {
 	if routeID == "" {
 		return fmt.Errorf("DeleteRoute need routeID")
 	}
@@ -88,7 +88,7 @@ func (c *Client) DeleteRoute(routeID string) error {
 	if err != nil {
 		return err
 	}
-	_, err = c.SendRequest(req, nil)
+	_, err = c.SendRequest(req, option)
 	if err != nil {
 		return err
 	}
@@ -138,7 +138,7 @@ func (args *CreateRouteRuleArgs) validate() error {
 }
 
 // CreateRouteRule create a route rule
-func (c *Client) CreateRouteRule(args *CreateRouteRuleArgs) (string, error) {
+func (c *Client) CreateRouteRule(args *CreateRouteRuleArgs, option *bce.SignOption) (string, error) {
 	err := args.validate()
 	if err != nil {
 		return "", err
@@ -154,7 +154,7 @@ func (c *Client) CreateRouteRule(args *CreateRouteRuleArgs) (string, error) {
 	if err != nil {
 		return "", err
 	}
-	resp, err := c.SendRequest(req, nil)
+	resp, err := c.SendRequest(req, option)
 	if err != nil {
 		return "", err
 	}

@@ -233,8 +233,8 @@ func (c *Client) DeleteInstance(instanceID string, option *bce.SignOption) error
 			Ip: instance.PublicIP,
 		}
 		// not return err even if failed
-		eipClient.UnbindEip(eipArg)
-		eipClient.DeleteEip(eipArg)
+		eipClient.UnbindEip(eipArg, nil)
+		eipClient.DeleteEip(eipArg, nil)
 	}
 
 	req, err := bce.NewRequest("DELETE", c.GetURL("v2/instance"+"/"+instanceID, nil), nil)

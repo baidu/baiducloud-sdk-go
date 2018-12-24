@@ -38,7 +38,7 @@ func (args *AddBackendServersArgs) validate() error {
 	return nil
 }
 
-func (c *Client) AddBackendServers(args *AddBackendServersArgs) error {
+func (c *Client) AddBackendServers(args *AddBackendServersArgs, option *bce.SignOption) error {
 	err := args.validate()
 	if err != nil {
 		return err
@@ -54,7 +54,7 @@ func (c *Client) AddBackendServers(args *AddBackendServersArgs) error {
 	if err != nil {
 		return err
 	}
-	_, err = c.SendRequest(req, nil)
+	_, err = c.SendRequest(req, option)
 	if err != nil {
 		return err
 	}
@@ -83,7 +83,7 @@ func (args *DescribeBackendServersArgs) validate() error {
 	return nil
 }
 
-func (c *Client) DescribeBackendServers(args *DescribeBackendServersArgs) ([]BackendServer, error) {
+func (c *Client) DescribeBackendServers(args *DescribeBackendServersArgs, option *bce.SignOption) ([]BackendServer, error) {
 	err := args.validate()
 	if err != nil {
 		return nil, err
@@ -92,7 +92,7 @@ func (c *Client) DescribeBackendServers(args *DescribeBackendServersArgs) ([]Bac
 	if err != nil {
 		return nil, err
 	}
-	resp, err := c.SendRequest(req, nil)
+	resp, err := c.SendRequest(req, option)
 
 	if err != nil {
 		return nil, err
@@ -131,7 +131,7 @@ func (args *UpdateBackendServersArgs) validate() error {
 }
 
 // UpdateBackendServers update  BackendServers
-func (c *Client) UpdateBackendServers(args *UpdateBackendServersArgs) error {
+func (c *Client) UpdateBackendServers(args *UpdateBackendServersArgs, option *bce.SignOption) error {
 	err := args.validate()
 	if err != nil {
 		return err
@@ -148,7 +148,7 @@ func (c *Client) UpdateBackendServers(args *UpdateBackendServersArgs) error {
 	if err != nil {
 		return err
 	}
-	_, err = c.SendRequest(req, nil)
+	_, err = c.SendRequest(req, option)
 	if err != nil {
 		return err
 	}
@@ -174,7 +174,7 @@ func (args *RemoveBackendServersArgs) validate() error {
 }
 
 // RemoveBackendServers remove a BackendServers
-func (c *Client) RemoveBackendServers(args *RemoveBackendServersArgs) error {
+func (c *Client) RemoveBackendServers(args *RemoveBackendServersArgs, option *bce.SignOption) error {
 	err := args.validate()
 	if err != nil {
 		return err
@@ -190,7 +190,7 @@ func (c *Client) RemoveBackendServers(args *RemoveBackendServersArgs) error {
 	if err != nil {
 		return err
 	}
-	_, err = c.SendRequest(req, nil)
+	_, err = c.SendRequest(req, option)
 	if err != nil {
 		return err
 	}

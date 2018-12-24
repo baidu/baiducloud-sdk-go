@@ -14,7 +14,7 @@ func TestCreateEip(t *testing.T) {
 		Billing:         bill,
 		Name:            "k8stestcgy",
 	}
-	ip, err := eipClient.CreateEip(args)
+	ip, err := eipClient.CreateEip(args, nil)
 	if err != nil {
 		t.Error(err)
 	}
@@ -29,7 +29,7 @@ var expectResizeEip = &ResizeEipArgs{
 }
 
 func TestResizeEip(t *testing.T) {
-	err := eipClient.ResizeEip(expectResizeEip)
+	err := eipClient.ResizeEip(expectResizeEip, nil)
 	if err != nil {
 		t.Error(err)
 	}
@@ -45,27 +45,27 @@ var expectUnbindEip = &EipArgs{
 }
 
 func TestBindEip(t *testing.T) {
-	err := eipClient.BindEip(expectBindEip)
+	err := eipClient.BindEip(expectBindEip, nil)
 	if err != nil {
 		t.Error(err)
 	}
 }
 
 func TestUnbindEip(t *testing.T) {
-	err := eipClient.UnbindEip(expectUnbindEip)
+	err := eipClient.UnbindEip(expectUnbindEip, nil)
 	if err != nil {
 		t.Error(err)
 	}
 }
 
 func TestDeleteEip(t *testing.T) {
-	err := eipClient.DeleteEip(expectUnbindEip)
+	err := eipClient.DeleteEip(expectUnbindEip, nil)
 	if err != nil {
 		t.Error(err)
 	}
 }
 func TestGetEips(t *testing.T) {
-	eips, err := eipClient.GetEips(nil)
+	eips, err := eipClient.GetEips(nil, nil)
 	if err != nil {
 		t.Error(err)
 	}
