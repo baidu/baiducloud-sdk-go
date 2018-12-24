@@ -12,7 +12,7 @@ var expectCreateBLB = &CreateLoadBalancerArgs{
 }
 
 func TestCreateLoadBalance(t *testing.T) {
-	blb, err := blbClient.CreateLoadBalancer(expectCreateBLB)
+	blb, err := blbClient.CreateLoadBalancer(expectCreateBLB, nil)
 	if err != nil {
 		t.Error(util.FormatTest("TestCreateLoadBalance", err.Error(), "nil"))
 	} else {
@@ -26,7 +26,7 @@ func TestDescribeLoadBalancers(t *testing.T) {
 	args := &DescribeLoadBalancersArgs{
 		LoadBalancerName: "test",
 	}
-	list, err := blbClient.DescribeLoadBalancers(args)
+	list, err := blbClient.DescribeLoadBalancers(args, nil)
 
 	if err != nil {
 		fmt.Println(err)
@@ -42,7 +42,7 @@ func TestUpdateLoadBalancer(t *testing.T) {
 		LoadBalancerId: "lb-e5b33752",
 		Name:           "golang-123",
 	}
-	err := blbClient.UpdateLoadBalancer(args)
+	err := blbClient.UpdateLoadBalancer(args, nil)
 	if err != nil {
 		t.Error(err)
 	}
@@ -52,7 +52,7 @@ func TestDeleteLoadBalancer(t *testing.T) {
 	args := &DeleteLoadBalancerArgs{
 		LoadBalancerId: "lb-426fad2b",
 	}
-	err := blbClient.DeleteLoadBalancer(args)
+	err := blbClient.DeleteLoadBalancer(args, nil)
 	if err != nil {
 		t.Error(err)
 	}

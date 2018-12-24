@@ -121,7 +121,7 @@ type CreateHTTPListenerArgs struct {
 
 // CreateLoadBalancerHTTPListener create HTTP listener on loadbalancer
 // You can read doc at https://cloud.baidu.com/doc/BLB/API.html#.C0.F3.F3.ED.5C.D8.4D.66.19.FF.DA.7A.0F.75.05.7C
-func (c *Client) CreateTCPListener(args *CreateTCPListenerArgs) (err error) {
+func (c *Client) CreateTCPListener(args *CreateTCPListenerArgs, option *bce.SignOption) (err error) {
 	params := map[string]string{
 		"clientToken": c.GenerateClientToken(),
 	}
@@ -136,7 +136,7 @@ func (c *Client) CreateTCPListener(args *CreateTCPListenerArgs) (err error) {
 	if err != nil {
 		return err
 	}
-	_, err = c.SendRequest(req, nil)
+	_, err = c.SendRequest(req, option)
 	if err != nil {
 		return err
 	}
@@ -146,7 +146,7 @@ func (c *Client) CreateTCPListener(args *CreateTCPListenerArgs) (err error) {
 // CreateLoadBalancerUDPListener create UDP listener on loadbalancer
 //
 // You can read doc at https://cloud.baidu.com/doc/BLB/API.html#.D7.A3.9B.E1.45.BD.9E.FA.B0.2F.60.12.B3.39.E8.9D
-func (c *Client) CreateUDPListener(args *CreateUDPListenerArgs) (err error) {
+func (c *Client) CreateUDPListener(args *CreateUDPListenerArgs, option *bce.SignOption) (err error) {
 	params := map[string]string{
 		"clientToken": c.GenerateClientToken(),
 	}
@@ -161,7 +161,7 @@ func (c *Client) CreateUDPListener(args *CreateUDPListenerArgs) (err error) {
 	if err != nil {
 		return err
 	}
-	_, err = c.SendRequest(req, nil)
+	_, err = c.SendRequest(req, option)
 	if err != nil {
 		return err
 	}
@@ -171,7 +171,7 @@ func (c *Client) CreateUDPListener(args *CreateUDPListenerArgs) (err error) {
 // CreateHTTPListener create HTTP listener on loadbalancer
 //
 // You can read doc at https://cloud.baidu.com/doc/BLB/API.html#.D7.A3.9B.E1.45.BD.9E.FA.B0.2F.60.12.B3.39.E8.9D
-func (c *Client) CreateHTTPListener(args *CreateHTTPListenerArgs) (err error) {
+func (c *Client) CreateHTTPListener(args *CreateHTTPListenerArgs, option *bce.SignOption) (err error) {
 	params := map[string]string{
 		"clientToken": c.GenerateClientToken(),
 	}
@@ -186,7 +186,7 @@ func (c *Client) CreateHTTPListener(args *CreateHTTPListenerArgs) (err error) {
 	if err != nil {
 		return err
 	}
-	_, err = c.SendRequest(req, nil)
+	_, err = c.SendRequest(req, option)
 	if err != nil {
 		return err
 	}
@@ -207,7 +207,7 @@ type DescribeTCPListenerResponse struct {
 
 // DescribeTCPListener Describe TCPListener
 // TODO: args need to validate
-func (c *Client) DescribeTCPListener(args *DescribeTCPListenerArgs) ([]TCPListener, error) {
+func (c *Client) DescribeTCPListener(args *DescribeTCPListenerArgs, option *bce.SignOption) ([]TCPListener, error) {
 	if args == nil {
 		return nil, fmt.Errorf("DescribeTCPListener need args")
 	}
@@ -222,7 +222,7 @@ func (c *Client) DescribeTCPListener(args *DescribeTCPListenerArgs) ([]TCPListen
 	if err != nil {
 		return nil, err
 	}
-	resp, err := c.SendRequest(req, nil)
+	resp, err := c.SendRequest(req, option)
 
 	if err != nil {
 		return nil, err
@@ -255,7 +255,7 @@ type DescribeUDPListenerResponse struct {
 
 // DescribeUDPListeners Describe UDPListeners
 // TODO: args need to validate
-func (c *Client) DescribeUDPListener(args *DescribeUDPListenerArgs) ([]UDPListener, error) {
+func (c *Client) DescribeUDPListener(args *DescribeUDPListenerArgs, option *bce.SignOption) ([]UDPListener, error) {
 	if args == nil {
 		return nil, fmt.Errorf("DescribeUDPListeners need args")
 	}
@@ -270,7 +270,7 @@ func (c *Client) DescribeUDPListener(args *DescribeUDPListenerArgs) ([]UDPListen
 	if err != nil {
 		return nil, err
 	}
-	resp, err := c.SendRequest(req, nil)
+	resp, err := c.SendRequest(req, option)
 
 	if err != nil {
 		return nil, err
@@ -302,7 +302,7 @@ type UpdateTCPListenerArgs struct {
 
 // UpdateTCPListener update a TCPListener
 // TODO: args need to validate
-func (c *Client) UpdateTCPListener(args *UpdateTCPListenerArgs) error {
+func (c *Client) UpdateTCPListener(args *UpdateTCPListenerArgs, option *bce.SignOption) error {
 
 	if args == nil || args.LoadBalancerId == "" || args.ListenerPort == 0 {
 		return fmt.Errorf("UpdateTCPListener need args")
@@ -321,7 +321,7 @@ func (c *Client) UpdateTCPListener(args *UpdateTCPListenerArgs) error {
 	if err != nil {
 		return err
 	}
-	_, err = c.SendRequest(req, nil)
+	_, err = c.SendRequest(req, option)
 	if err != nil {
 		return err
 	}
@@ -360,7 +360,7 @@ func (args *UpdateUDPListenerArgs) validate() error {
 }
 
 // UpdateUDPListener update a UDPListener
-func (c *Client) UpdateUDPListener(args *UpdateUDPListenerArgs) error {
+func (c *Client) UpdateUDPListener(args *UpdateUDPListenerArgs, option *bce.SignOption) error {
 	err := args.validate()
 	if err != nil {
 		return err
@@ -376,7 +376,7 @@ func (c *Client) UpdateUDPListener(args *UpdateUDPListenerArgs) error {
 	if err != nil {
 		return err
 	}
-	_, err = c.SendRequest(req, nil)
+	_, err = c.SendRequest(req, option)
 	if err != nil {
 		return err
 	}
@@ -400,7 +400,7 @@ func (args *DeleteListenersArgs) validate() error {
 }
 
 // UpdateUDPListener update a UDPListener
-func (c *Client) DeleteListeners(args *DeleteListenersArgs) error {
+func (c *Client) DeleteListeners(args *DeleteListenersArgs, option *bce.SignOption) error {
 	err := args.validate()
 	if err != nil {
 		return err
@@ -418,7 +418,7 @@ func (c *Client) DeleteListeners(args *DeleteListenersArgs) error {
 	if err != nil {
 		return err
 	}
-	_, err = c.SendRequest(req, nil)
+	_, err = c.SendRequest(req, option)
 	if err != nil {
 		return err
 	}

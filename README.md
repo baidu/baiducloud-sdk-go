@@ -44,7 +44,7 @@ func main() {
 
 	eipClient := eip.NewEIPClient(bceConf)
 	eipClient.SetDebug(true)
-	eips, err := eipClient.GetEips(nil)
+	eips, err := eipClient.GetEips(nil, nil)
 	if err != nil {
 		panic(err)
 	}

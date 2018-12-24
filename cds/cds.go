@@ -139,7 +139,7 @@ func (args *CreateVolumeArgs) validate() error {
 }
 
 // CreateVolumes create a volume
-func (c *Client) CreateVolumes(args *CreateVolumeArgs) ([]string, error) {
+func (c *Client) CreateVolumes(args *CreateVolumeArgs, option *bce.SignOption) ([]string, error) {
 	err := args.validate()
 	if err != nil {
 		return nil, err
@@ -155,7 +155,7 @@ func (c *Client) CreateVolumes(args *CreateVolumeArgs) ([]string, error) {
 	if err != nil {
 		return nil, err
 	}
-	resp, err := c.SendRequest(req, nil)
+	resp, err := c.SendRequest(req, option)
 	if err != nil {
 		return nil, err
 	}
@@ -175,7 +175,7 @@ func (c *Client) CreateVolumes(args *CreateVolumeArgs) ([]string, error) {
 }
 
 // DeleteVolume Delete a volume
-func (c *Client) DeleteVolume(volumeId string) error {
+func (c *Client) DeleteVolume(volumeId string, option *bce.SignOption) error {
 	if volumeId == "" {
 		return fmt.Errorf("DeleteVolume need a id")
 	}
@@ -186,7 +186,7 @@ func (c *Client) DeleteVolume(volumeId string) error {
 	if err != nil {
 		return err
 	}
-	_, err = c.SendRequest(req, nil)
+	_, err = c.SendRequest(req, option)
 	if err != nil {
 		return err
 	}
@@ -194,7 +194,7 @@ func (c *Client) DeleteVolume(volumeId string) error {
 }
 
 // GetVolumeList get all volumes
-func (c *Client) GetVolumeList(args *GetVolumeListArgs) ([]Volume, error) {
+func (c *Client) GetVolumeList(args *GetVolumeListArgs, option *bce.SignOption) ([]Volume, error) {
 	if args == nil {
 		args = &GetVolumeListArgs{}
 	}
@@ -206,7 +206,7 @@ func (c *Client) GetVolumeList(args *GetVolumeListArgs) ([]Volume, error) {
 	if err != nil {
 		return nil, err
 	}
-	resp, err := c.SendRequest(req, nil)
+	resp, err := c.SendRequest(req, option)
 	bodyContent, err := resp.GetBodyContent()
 
 	if err != nil {
@@ -223,7 +223,7 @@ func (c *Client) GetVolumeList(args *GetVolumeListArgs) ([]Volume, error) {
 
 // DescribeVolume describe a volume
 // More info see https://cloud.baidu.com/doc/BCC/API.html#.E6.9F.A5.E8.AF.A2.E7.A3.81.E7.9B.98.E8.AF.A6.E6.83.85
-func (c *Client) DescribeVolume(id string) (*Volume, error) {
+func (c *Client) DescribeVolume(id string, option *bce.SignOption) (*Volume, error) {
 	if id == "" {
 		return nil, fmt.Errorf("DescribeVolume need a id")
 	}
@@ -231,7 +231,7 @@ func (c *Client) DescribeVolume(id string) (*Volume, error) {
 	if err != nil {
 		return nil, err
 	}
-	resp, err := c.SendRequest(req, nil)
+	resp, err := c.SendRequest(req, option)
 	if err != nil {
 		return nil, err
 	}
@@ -262,7 +262,7 @@ func (args *AttachVolumeArgs) validate() error {
 }
 
 // AttachCDSVolume attach a cds to vm
-func (c *Client) AttachVolume(args *AttachVolumeArgs) (*VolumeAttachment, error) {
+func (c *Client) AttachVolume(args *AttachVolumeArgs, option *bce.SignOption) (*VolumeAttachment, error) {
 	err := args.validate()
 	if err != nil {
 		return nil, err
@@ -279,7 +279,7 @@ func (c *Client) AttachVolume(args *AttachVolumeArgs) (*VolumeAttachment, error)
 	if err != nil {
 		return nil, err
 	}
-	resp, err := c.SendRequest(req, nil)
+	resp, err := c.SendRequest(req, option)
 	if err != nil {
 		return nil, err
 	}
@@ -298,7 +298,7 @@ func (c *Client) AttachVolume(args *AttachVolumeArgs) (*VolumeAttachment, error)
 
 // DetachCDSVolume detach a cds
 // TODO: if a volume is detaching, need to wait
-func (c *Client) DetachVolume(args *AttachVolumeArgs) error {
+func (c *Client) DetachVolume(args *AttachVolumeArgs, option *bce.SignOption) error {
 	err := args.validate()
 	if err != nil {
 		return err
@@ -315,7 +315,7 @@ func (c *Client) DetachVolume(args *AttachVolumeArgs) error {
 	if err != nil {
 		return err
 	}
-	_, err = c.SendRequest(req, nil)
+	_, err = c.SendRequest(req, option)
 	if err != nil {
 		return err
 	}

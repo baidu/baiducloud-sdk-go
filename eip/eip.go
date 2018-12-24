@@ -76,7 +76,7 @@ func (args *CreateEipArgs) validate() error {
 	}
 	return nil
 }
-func (c *Client) CreateEip(args *CreateEipArgs) (string, error) {
+func (c *Client) CreateEip(args *CreateEipArgs, option *bce.SignOption) (string, error) {
 	err := args.validate()
 	if err != nil {
 		return "", err
@@ -92,7 +92,7 @@ func (c *Client) CreateEip(args *CreateEipArgs) (string, error) {
 	if err != nil {
 		return "", err
 	}
-	resp, err := c.SendRequest(req, nil)
+	resp, err := c.SendRequest(req, option)
 	if err != nil {
 		return "", err
 	}
@@ -129,7 +129,7 @@ func (args *ResizeEipArgs) validate() error {
 	return nil
 }
 
-func (c *Client) ResizeEip(args *ResizeEipArgs) error {
+func (c *Client) ResizeEip(args *ResizeEipArgs, option *bce.SignOption) error {
 	err := args.validate()
 	if err != nil {
 		return err
@@ -148,7 +148,7 @@ func (c *Client) ResizeEip(args *ResizeEipArgs) error {
 	if err != nil {
 		return err
 	}
-	_, err = c.SendRequest(req, nil)
+	_, err = c.SendRequest(req, option)
 	if err != nil {
 		return err
 	}
@@ -178,7 +178,7 @@ func (args *BindEipArgs) validate() error {
 	return nil
 }
 
-func (c *Client) BindEip(args *BindEipArgs) error {
+func (c *Client) BindEip(args *BindEipArgs, option *bce.SignOption) error {
 	err := args.validate()
 	if err != nil {
 		return err
@@ -195,7 +195,7 @@ func (c *Client) BindEip(args *BindEipArgs) error {
 	if err != nil {
 		return err
 	}
-	_, err = c.SendRequest(req, nil)
+	_, err = c.SendRequest(req, option)
 	if err != nil {
 		return err
 	}
@@ -217,7 +217,7 @@ func (args *EipArgs) validate() error {
 	return nil
 }
 
-func (c *Client) UnbindEip(args *EipArgs) error {
+func (c *Client) UnbindEip(args *EipArgs, option *bce.SignOption) error {
 	err := args.validate()
 	if err != nil {
 		return err
@@ -231,14 +231,14 @@ func (c *Client) UnbindEip(args *EipArgs) error {
 	if err != nil {
 		return err
 	}
-	_, err = c.SendRequest(req, nil)
+	_, err = c.SendRequest(req, option)
 	if err != nil {
 		return err
 	}
 	return nil
 }
 
-func (c *Client) DeleteEip(args *EipArgs) error {
+func (c *Client) DeleteEip(args *EipArgs, option *bce.SignOption) error {
 	err := args.validate()
 	if err != nil {
 		return err
@@ -250,7 +250,7 @@ func (c *Client) DeleteEip(args *EipArgs) error {
 	if err != nil {
 		return err
 	}
-	_, err = c.SendRequest(req, nil)
+	_, err = c.SendRequest(req, option)
 	if err != nil {
 		return err
 	}
@@ -271,7 +271,7 @@ type GetEipsResponse struct {
 	MaxKeys     int    `json:"maxKeys"`
 }
 
-func (c *Client) GetEips(args *GetEipsArgs) ([]Eip, error) {
+func (c *Client) GetEips(args *GetEipsArgs, option *bce.SignOption) ([]Eip, error) {
 	if args == nil {
 		args = &GetEipsArgs{}
 	}
@@ -284,7 +284,7 @@ func (c *Client) GetEips(args *GetEipsArgs) ([]Eip, error) {
 	if err != nil {
 		return nil, err
 	}
-	resp, err := c.SendRequest(req, nil)
+	resp, err := c.SendRequest(req, option)
 	if err != nil {
 		return nil, err
 	}

@@ -50,7 +50,7 @@ type ListVpcResponse struct {
 
 // ListVpc list all vpcs
 // https://cloud.baidu.com/doc/VPC/API.html#.E6.9F.A5.E8.AF.A2VPC.E5.88.97.E8.A1.A8
-func (c *Client) ListVpc(args *ListVpcArgs) ([]Vpc, error) {
+func (c *Client) ListVpc(args *ListVpcArgs, option *bce.SignOption) ([]Vpc, error) {
 	if args == nil {
 		args = &ListVpcArgs{}
 	}
@@ -61,7 +61,7 @@ func (c *Client) ListVpc(args *ListVpcArgs) ([]Vpc, error) {
 	if err != nil {
 		return nil, err
 	}
-	resp, err := c.SendRequest(req, nil)
+	resp, err := c.SendRequest(req, option)
 	if err != nil {
 		return nil, err
 	}

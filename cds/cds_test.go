@@ -23,7 +23,7 @@ func TestCreateVolumes(t *testing.T) {
 	// ts := httptest.NewServer(EipHandler())
 	// defer ts.Close()
 	// eipClient.Endpoint = ts.URL
-	_, err := bccClient.CreateVolumes(expectCreateVolumeArgs)
+	_, err := bccClient.CreateVolumes(expectCreateVolumeArgs, nil)
 	if err != nil {
 		t.Error(err)
 	}
@@ -33,7 +33,7 @@ func TestGetVolumeList(t *testing.T) {
 	// ts := httptest.NewServer(EipHandler())
 	// defer ts.Close()
 	// eipClient.Endpoint = ts.URL
-	list, err := bccClient.GetVolumeList(nil)
+	list, err := bccClient.GetVolumeList(nil, nil)
 	if err != nil {
 		t.Error(err)
 	}
@@ -46,7 +46,7 @@ func TestDescribeVolume(t *testing.T) {
 	// ts := httptest.NewServer(InstancesHandler())
 	// defer ts.Close()
 	// bccClient.Endpoint = ts.URL
-	ins, err := bccClient.DescribeVolume("v-31wjHWIU")
+	ins, err := bccClient.DescribeVolume("v-31wjHWIU", nil)
 	if err != nil {
 		t.Error(util.FormatTest("TestDescribeVolume", err.Error(), "nil"))
 	}
@@ -63,7 +63,7 @@ func TestAttachVolume(t *testing.T) {
 	// defer ts.Close()
 	// eipClient.Endpoint = ts.URL
 	bccClient.SetDebug(true)
-	att, err := bccClient.AttachVolume(expectAttach)
+	att, err := bccClient.AttachVolume(expectAttach, nil)
 	if err != nil {
 		t.Error(err)
 	} else {
@@ -74,7 +74,7 @@ func TestAttachVolume(t *testing.T) {
 
 func TestDetachVolume(t *testing.T) {
 	bccClient.SetDebug(true)
-	err := bccClient.DetachVolume(expectAttach)
+	err := bccClient.DetachVolume(expectAttach, nil)
 	if err != nil {
 		t.Error(err)
 	}
@@ -82,7 +82,7 @@ func TestDetachVolume(t *testing.T) {
 
 func TestDeleteVolume(t *testing.T) {
 	bccClient.SetDebug(true)
-	err := bccClient.DeleteVolume("v-JCvK3cpI")
+	err := bccClient.DeleteVolume("v-JCvK3cpI", nil)
 	if err != nil {
 		t.Error(err)
 	}

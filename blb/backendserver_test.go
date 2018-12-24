@@ -21,7 +21,7 @@ func TestAddBackendServers(t *testing.T) {
 			},
 		},
 	}
-	err := blbClient.AddBackendServers(args)
+	err := blbClient.AddBackendServers(args, nil)
 	if err != nil {
 		t.Error(err)
 	}
@@ -31,7 +31,7 @@ func TestDescribeBackendServers(t *testing.T) {
 	args := &DescribeBackendServersArgs{
 		LoadBalancerId: "lb-e5b33752",
 	}
-	list, err := blbClient.DescribeBackendServers(args)
+	list, err := blbClient.DescribeBackendServers(args, nil)
 	if err != nil {
 		fmt.Println(err)
 		t.Error(util.FormatTest("DescribeBackendServers", err.Error(), "nil"))
@@ -49,7 +49,7 @@ func TestUpdateBackendServers(t *testing.T) {
 			Weight:     99,
 		}},
 	}
-	err := blbClient.UpdateBackendServers(args)
+	err := blbClient.UpdateBackendServers(args, nil)
 	if err != nil {
 		t.Error(err)
 	}
@@ -61,7 +61,7 @@ func TestRemoveBackendServers(t *testing.T) {
 		BackendServerList: []string{"i-vfBlsqNG", "i-vfBlsqNG"},
 	}
 
-	err := blbClient.RemoveBackendServers(args)
+	err := blbClient.RemoveBackendServers(args, nil)
 	if err != nil {
 		t.Error(err)
 	}

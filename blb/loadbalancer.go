@@ -61,7 +61,7 @@ type DeleteLoadBalancerArgs struct {
 
 // DescribeLoadBalancers Describe loadbalancers
 // TODO: args need to validate
-func (c *Client) DescribeLoadBalancers(args *DescribeLoadBalancersArgs) ([]LoadBalancer, error) {
+func (c *Client) DescribeLoadBalancers(args *DescribeLoadBalancersArgs, option *bce.SignOption) ([]LoadBalancer, error) {
 	var params map[string]string
 	if args != nil {
 		params = map[string]string{
@@ -76,7 +76,7 @@ func (c *Client) DescribeLoadBalancers(args *DescribeLoadBalancersArgs) ([]LoadB
 	if err != nil {
 		return nil, err
 	}
-	resp, err := c.SendRequest(req, nil)
+	resp, err := c.SendRequest(req, option)
 
 	if err != nil {
 		return nil, err
@@ -97,7 +97,7 @@ func (c *Client) DescribeLoadBalancers(args *DescribeLoadBalancersArgs) ([]LoadB
 
 // CreateLoadBalancer Create a  loadbalancer
 // TODO: args need to validate
-func (c *Client) CreateLoadBalancer(args *CreateLoadBalancerArgs) (*CreateLoadBalancerResponse, error) {
+func (c *Client) CreateLoadBalancer(args *CreateLoadBalancerArgs, option *bce.SignOption) (*CreateLoadBalancerResponse, error) {
 	var params map[string]string
 	if args != nil {
 		params = map[string]string{
@@ -112,7 +112,7 @@ func (c *Client) CreateLoadBalancer(args *CreateLoadBalancerArgs) (*CreateLoadBa
 	if err != nil {
 		return nil, err
 	}
-	resp, err := c.SendRequest(req, nil)
+	resp, err := c.SendRequest(req, option)
 	if err != nil {
 		return nil, err
 	}
@@ -131,7 +131,7 @@ func (c *Client) CreateLoadBalancer(args *CreateLoadBalancerArgs) (*CreateLoadBa
 
 // UpdateLoadBalancer update a loadbalancer
 // TODO: args need to validate
-func (c *Client) UpdateLoadBalancer(args *UpdateLoadBalancerArgs) error {
+func (c *Client) UpdateLoadBalancer(args *UpdateLoadBalancerArgs, option *bce.SignOption) error {
 	params := map[string]string{
 		"clientToken": c.GenerateClientToken(),
 	}
@@ -147,7 +147,7 @@ func (c *Client) UpdateLoadBalancer(args *UpdateLoadBalancerArgs) error {
 	if err != nil {
 		return err
 	}
-	_, err = c.SendRequest(req, nil)
+	_, err = c.SendRequest(req, option)
 	if err != nil {
 		return err
 	}
@@ -155,7 +155,7 @@ func (c *Client) UpdateLoadBalancer(args *UpdateLoadBalancerArgs) error {
 }
 
 // DeleteLoadBalancer delete a loadbalancer
-func (c *Client) DeleteLoadBalancer(args *DeleteLoadBalancerArgs) error {
+func (c *Client) DeleteLoadBalancer(args *DeleteLoadBalancerArgs, option *bce.SignOption) error {
 	params := map[string]string{
 		"clientToken": c.GenerateClientToken(),
 	}
@@ -166,7 +166,7 @@ func (c *Client) DeleteLoadBalancer(args *DeleteLoadBalancerArgs) error {
 	if err != nil {
 		return err
 	}
-	_, err = c.SendRequest(req, nil)
+	_, err = c.SendRequest(req, option)
 	if err != nil {
 		return err
 	}

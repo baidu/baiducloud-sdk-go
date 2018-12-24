@@ -47,7 +47,7 @@ type DescribeSubnetResponse struct {
 }
 
 // 在VPC中创建子网
-func (c *Client) CreateSubnet(args *CreateSubnetArgs) (string, error) {
+func (c *Client) CreateSubnet(args *CreateSubnetArgs, option *bce.SignOption) (string, error) {
 	if args == nil {
 		return "", fmt.Errorf("CreateSubnet failed: CreateSubnetArgs is nil")
 	}
@@ -62,7 +62,7 @@ func (c *Client) CreateSubnet(args *CreateSubnetArgs) (string, error) {
 	if err != nil {
 		return "", err
 	}
-	resp, err := c.SendRequest(req, nil)
+	resp, err := c.SendRequest(req, option)
 	if err != nil {
 		return "", err
 	}
@@ -80,12 +80,12 @@ func (c *Client) CreateSubnet(args *CreateSubnetArgs) (string, error) {
 }
 
 // 查询指定VPC的所有子网列表信息
-func (c *Client) ListSubnet(params map[string]string) ([]*Subnet, error) {
+func (c *Client) ListSubnet(params map[string]string, option *bce.SignOption) ([]*Subnet, error) {
 	req, err := bce.NewRequest("GET", c.GetURL("v1/subnet", params), nil)
 	if err != nil {
 		return nil, err
 	}
-	resp, err := c.SendRequest(req, nil)
+	resp, err := c.SendRequest(req, option)
 	if err != nil {
 		return nil, err
 	}
@@ -103,7 +103,7 @@ func (c *Client) ListSubnet(params map[string]string) ([]*Subnet, error) {
 }
 
 // 查询指定子网的详细信息
-func (c *Client) DescribeSubnet(subnetId string) (*Subnet, error) {
+func (c *Client) DescribeSubnet(subnetId string, option *bce.SignOption) (*Subnet, error) {
 	if len(subnetId) == 0 {
 		return nil, fmt.Errorf("DescribeSubnet failed, subnetId must not be empty")
 	}
@@ -111,7 +111,7 @@ func (c *Client) DescribeSubnet(subnetId string) (*Subnet, error) {
 	if err != nil {
 		return nil, err
 	}
-	resp, err := c.SendRequest(req, nil)
+	resp, err := c.SendRequest(req, option)
 	if err != nil {
 		return nil, err
 	}

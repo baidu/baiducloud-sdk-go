@@ -14,7 +14,7 @@ func TestCreateTCPListener(t *testing.T) {
 		BackendPort:    8080,
 		Scheduler:      "LeastConnection",
 	}
-	err := blbClient.CreateTCPListener(args)
+	err := blbClient.CreateTCPListener(args, nil)
 	if err != nil {
 		t.Error(err)
 	}
@@ -28,7 +28,7 @@ func TestCreateUDPListener(t *testing.T) {
 		Scheduler:         "LeastConnection",
 		HealthCheckString: "hello",
 	}
-	err := blbClient.CreateUDPListener(args)
+	err := blbClient.CreateUDPListener(args, nil)
 	if err != nil {
 		t.Error(err)
 	}
@@ -41,7 +41,7 @@ func TestCreateHTTPListener(t *testing.T) {
 		BackendPort:    8899,
 		Scheduler:      "LeastConnection",
 	}
-	err := blbClient.CreateHTTPListener(args)
+	err := blbClient.CreateHTTPListener(args, nil)
 	if err != nil {
 		t.Error(err)
 	}
@@ -52,7 +52,7 @@ func TestDescribeTCPListener(t *testing.T) {
 		LoadBalancerId: "lb-e5b33752",
 		ListenerPort:   8088,
 	}
-	list, err := blbClient.DescribeTCPListener(args)
+	list, err := blbClient.DescribeTCPListener(args, nil)
 
 	if err != nil {
 		t.Error(util.FormatTest("ListInstances", err.Error(), "nil"))
@@ -67,7 +67,7 @@ func TestDescribeUDPListener(t *testing.T) {
 		LoadBalancerId: "lb-07ab7a1d",
 		// ListenerPort:   80,
 	}
-	list, err := blbClient.DescribeUDPListener(args)
+	list, err := blbClient.DescribeUDPListener(args, nil)
 
 	if err != nil {
 		t.Error(util.FormatTest("DescribeUDPListener", err.Error(), "nil"))
@@ -82,7 +82,7 @@ func TestUpdateTCPListener(t *testing.T) {
 		ListenerPort:   8088,
 		BackendPort:    999,
 	}
-	err := blbClient.UpdateTCPListener(args)
+	err := blbClient.UpdateTCPListener(args, nil)
 	if err != nil {
 		t.Error(err)
 	}
@@ -96,7 +96,7 @@ func TestUpdateUDPListener(t *testing.T) {
 		Scheduler:         "RoundRobin",
 		HealthCheckString: "A",
 	}
-	err := blbClient.UpdateUDPListener(args)
+	err := blbClient.UpdateUDPListener(args, nil)
 	if err != nil {
 		t.Error(err)
 	}
@@ -107,7 +107,7 @@ func TestDeleteListeners(t *testing.T) {
 		LoadBalancerId: "lb-e5b33752",
 		PortList:       []int{8088},
 	}
-	err := blbClient.DeleteListeners(args)
+	err := blbClient.DeleteListeners(args, nil)
 	if err != nil {
 		t.Error(err)
 	}
