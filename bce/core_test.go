@@ -24,8 +24,8 @@ var bceClient = NewClient(getConfig())
 
 func TestNewConfig(t *testing.T) {
 	credentials := Credentials{
-		AccessKeyID:     "0b0f67dfb88244b289b72b142befad0c",
-		SecretAccessKey: "bad522c2126a4618a8125f4b6cf6356f",
+		AccessKeyID:     "your_access_key_id",
+		SecretAccessKey: "your_secret_access_key",
 	}
 	config := NewConfig(&credentials)
 
@@ -431,8 +431,8 @@ func TestSignedHeadersToString(t *testing.T) {
 func TestGetSigningKey(t *testing.T) {
 	const expected = "d9f35aaba8a5f3efa654851917114b6f22cd831116fd7d8431e08af22dcff24c"
 	credentials := Credentials{
-		AccessKeyID:     "0b0f67dfb88244b289b72b142befad0c",
-		SecretAccessKey: "bad522c2126a4618a8125f4b6cf6356f",
+		AccessKeyID:     "your_access_key_id",
+		SecretAccessKey: "your_secret_access_key",
 	}
 	signOption := NewSignOption(
 		"2015-04-27T08:23:49Z",
@@ -450,8 +450,8 @@ func TestGetSigningKey(t *testing.T) {
 func TestSign(t *testing.T) {
 	expected := "a19e6386e990691aca1114a20357c83713f1cb4be3d74942bb4ed37469ecdacf"
 	credentials := Credentials{
-		AccessKeyID:     "0b0f67dfb88244b289b72b142befad0c",
-		SecretAccessKey: "bad522c2126a4618a8125f4b6cf6356f",
+		AccessKeyID:     "your_access_key_id",
+		SecretAccessKey: "your_secret_access_key",
 	}
 	req := getRequest()
 	signOption := NewSignOption(
@@ -468,11 +468,11 @@ func TestSign(t *testing.T) {
 }
 
 func TestGenerateAuthorization(t *testing.T) {
-	expected := "bce-auth-v1/0b0f67dfb88244b289b72b142befad0c/2015-04-27T08:23:49Z/1800/content-length;content-md5;" +
+	expected := "bce-auth-v1/your_access_key_id/2015-04-27T08:23:49Z/1800/content-length;content-md5;" +
 		"content-type;host;x-bce-date/a19e6386e990691aca1114a20357c83713f1cb4be3d74942bb4ed37469ecdacf"
 	credentials := Credentials{
-		AccessKeyID:     "0b0f67dfb88244b289b72b142befad0c",
-		SecretAccessKey: "bad522c2126a4618a8125f4b6cf6356f",
+		AccessKeyID:     "your_access_key_id",
+		SecretAccessKey: "your_secret_access_key",
 	}
 	req := getRequest()
 	signOption := NewSignOption(
@@ -493,8 +493,8 @@ func TestGenerateAuthorization(t *testing.T) {
 
 func TestNewHttpClient(t *testing.T) {
 	credentials := Credentials{
-		AccessKeyID:     "0b0f67dfb88244b289b72b142befad0c",
-		SecretAccessKey: "bad522c2126a4618a8125f4b6cf6356f",
+		AccessKeyID:     "your_access_key_id",
+		SecretAccessKey: "your_secret_access_key",
 	}
 	config := &Config{
 		Credentials:    &credentials,
@@ -590,8 +590,8 @@ func TestSendRequest(t *testing.T) {
 	request, _ := NewRequest("GET", url, nil)
 	resp, err := client.SendRequest(request, &SignOption{
 		Credentials: &Credentials{
-			AccessKeyID:     "0b0f67dfb88244b289b72b142befad0c",
-			SecretAccessKey: "bad522c2126a4618a8125f4b6cf6356f",
+			AccessKeyID:     "your_access_key_id",
+			SecretAccessKey: "your_secret_access_key",
 		},
 	})
 
@@ -705,8 +705,8 @@ func TestBCCSendRequest(t *testing.T) {
 	request, _ := NewRequest("GET", url, nil)
 	resp, err := client.SendRequest(request, &SignOption{
 		Credentials: &Credentials{
-			AccessKeyID:     "0b565874be53440ba579d8a70cac8f98",
-			SecretAccessKey: "d8ad18e630c64bf4b4661ce9b49164c8",
+			AccessKeyID:     "your_access_key_id",
+			SecretAccessKey: "your_secret_access_key",
 		},
 	})
 	bodyContent, err := resp.GetBodyContent()
