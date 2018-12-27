@@ -12,22 +12,19 @@ import (
 	"github.com/baidu/baiducloud-sdk-go/util"
 )
 
-func getConfig() *Config {
+func getTestConfig() *Config {
 	return &Config{
-		Credentials: NewCredentials(os.Getenv("BAIDU_BCE_AK"), os.Getenv("BAIDU_BCE_SK")),
+		Credentials: NewCredentials(os.Getenv("AccessKeyID"), os.Getenv("SecretAccessKey")),
 		Checksum:    true,
-		Region:      os.Getenv("BOS_REGION"),
+		Region:      os.Getenv("Region"),
 	}
 }
 
-var bceClient = NewClient(getConfig())
+var bceClient = NewClient(getTestConfig())
 
 func TestNewConfig(t *testing.T) {
-	credentials := Credentials{
-		AccessKeyID:     "0b0f67dfb88244b289b72b142befad0c",
-		SecretAccessKey: "bad522c2126a4618a8125f4b6cf6356f",
-	}
-	config := NewConfig(&credentials)
+	credentials := getTestConfig().Credentials
+	config := NewConfig(credentials)
 
 	if config == nil {
 		t.Error(util.FormatTest("NewConfig", "nil", "not nil"))
@@ -430,17 +427,14 @@ func TestSignedHeadersToString(t *testing.T) {
 
 func TestGetSigningKey(t *testing.T) {
 	const expected = "d9f35aaba8a5f3efa654851917114b6f22cd831116fd7d8431e08af22dcff24c"
-	credentials := Credentials{
-		AccessKeyID:     "0b0f67dfb88244b289b72b142befad0c",
-		SecretAccessKey: "bad522c2126a4618a8125f4b6cf6356f",
-	}
+	credentials := getTestConfig().Credentials
 	signOption := NewSignOption(
 		"2015-04-27T08:23:49Z",
 		ExpirationPeriodInSeconds,
 		getHeaders(),
 		nil,
 	)
-	signingKey := getSigningKey(credentials, signOption)
+	signingKey := getSigningKey(*credentials, signOption)
 
 	if signingKey != expected {
 		t.Error(util.FormatTest("getSigningKey", signingKey, expected))
@@ -449,10 +443,7 @@ func TestGetSigningKey(t *testing.T) {
 
 func TestSign(t *testing.T) {
 	expected := "a19e6386e990691aca1114a20357c83713f1cb4be3d74942bb4ed37469ecdacf"
-	credentials := Credentials{
-		AccessKeyID:     "0b0f67dfb88244b289b72b142befad0c",
-		SecretAccessKey: "bad522c2126a4618a8125f4b6cf6356f",
-	}
+	credentials := getTestConfig().Credentials
 	req := getRequest()
 	signOption := NewSignOption(
 		"2015-04-27T08:23:49Z",
@@ -460,7 +451,7 @@ func TestSign(t *testing.T) {
 		getHeaders(),
 		nil,
 	)
-	signature := sign(credentials, *req, signOption)
+	signature := sign(*credentials, *req, signOption)
 
 	if signature != expected {
 		t.Error(util.FormatTest("sign", signature, expected))
@@ -468,12 +459,9 @@ func TestSign(t *testing.T) {
 }
 
 func TestGenerateAuthorization(t *testing.T) {
-	expected := "bce-auth-v1/0b0f67dfb88244b289b72b142befad0c/2015-04-27T08:23:49Z/1800/content-length;content-md5;" +
+	expected := "bce-auth-v1/your_access_key_id/2015-04-27T08:23:49Z/1800/content-length;content-md5;" +
 		"content-type;host;x-bce-date/a19e6386e990691aca1114a20357c83713f1cb4be3d74942bb4ed37469ecdacf"
-	credentials := Credentials{
-		AccessKeyID:     "0b0f67dfb88244b289b72b142befad0c",
-		SecretAccessKey: "bad522c2126a4618a8125f4b6cf6356f",
-	}
+	credentials := getTestConfig().Credentials
 	req := getRequest()
 	signOption := NewSignOption(
 		"2015-04-27T08:23:49Z",
@@ -481,23 +469,20 @@ func TestGenerateAuthorization(t *testing.T) {
 		getHeaders(),
 		nil,
 	)
-	authorization := GenerateAuthorization(credentials, *req, signOption)
+	authorization := GenerateAuthorization(*credentials, *req, signOption)
 
 	if authorization != expected {
 		t.Error(util.FormatTest("GenerateAuthorization", authorization, expected))
 	}
 
 	req = getRequest()
-	GenerateAuthorization(credentials, *req, nil)
+	GenerateAuthorization(*credentials, *req, nil)
 }
 
 func TestNewHttpClient(t *testing.T) {
-	credentials := Credentials{
-		AccessKeyID:     "0b0f67dfb88244b289b72b142befad0c",
-		SecretAccessKey: "bad522c2126a4618a8125f4b6cf6356f",
-	}
+	credentials := getTestConfig().Credentials
 	config := &Config{
-		Credentials:    &credentials,
+		Credentials:    credentials,
 		ProxyHost:      "guoyao.me",
 		ProxyPort:      8000,
 		MaxConnections: 10,
@@ -511,7 +496,7 @@ func TestNewHttpClient(t *testing.T) {
 }
 
 func TestSetDebug(t *testing.T) {
-	config := getConfig()
+	config := getTestConfig()
 	client := NewClient(config)
 	expected := false
 
@@ -557,7 +542,7 @@ func TestGetURL(t *testing.T) {
 
 func TestGetSessionToken(t *testing.T) {
 	method := "GetSessionToken"
-	config := getConfig()
+	config := getTestConfig()
 
 	req := SessionTokenRequest{
 		DurationSeconds: 600,
@@ -582,16 +567,13 @@ func TestGetSessionToken(t *testing.T) {
 }
 
 func TestSendRequest(t *testing.T) {
-	config := getConfig()
+	config := getTestConfig()
 	client := NewClient(config)
 	client.SetDebug(true)
 	url := "http://www.baidu.com"
 	request, _ := NewRequest("GET", url, nil)
 	resp, err := client.SendRequest(request, &SignOption{
-		Credentials: &Credentials{
-			AccessKeyID:     "0b0f67dfb88244b289b72b142befad0c",
-			SecretAccessKey: "bad522c2126a4618a8125f4b6cf6356f",
-		},
+		Credentials: config.Credentials,
 	})
 
 	if err != nil {
@@ -697,16 +679,13 @@ func getHeaders() map[string]string {
 }
 
 func TestBCCSendRequest(t *testing.T) {
-	config := getConfig()
+	config := getTestConfig()
 	client := NewClient(config)
 	client.SetDebug(true)
 	url := "https://bcc.bj.baidubce.com/v2/instance"
 	request, _ := NewRequest("GET", url, nil)
 	resp, err := client.SendRequest(request, &SignOption{
-		Credentials: &Credentials{
-			AccessKeyID:     "0b565874be53440ba579d8a70cac8f98",
-			SecretAccessKey: "d8ad18e630c64bf4b4661ce9b49164c8",
-		},
+		Credentials: config.Credentials,
 	})
 	bodyContent, err := resp.GetBodyContent()
 

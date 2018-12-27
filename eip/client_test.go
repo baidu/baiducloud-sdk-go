@@ -26,7 +26,7 @@ func init() {
 		Credentials: credentials,
 		Checksum:    true,
 		Timeout:     5 * time.Second,
-		Region:      os.Getenv("BOS_REGION"),
+		Region:      os.Getenv("Region"),
 	}
 	eipClient = NewEIPClient(bceConfig)
 	// eipClient.SetDebug(true)

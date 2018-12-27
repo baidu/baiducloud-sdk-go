@@ -17,13 +17,13 @@ import (
 	"github.com/baidu/baiducloud-sdk-go/util"
 )
 
-var credentials = bce.NewCredentials(os.Getenv("BAIDU_BCE_AK"), os.Getenv("BAIDU_BCE_SK"))
+var credentials = bce.NewCredentials(os.Getenv("AccessKeyID"), os.Getenv("SecretAccessKey"))
 
 //var bceConfig = bce.NewConfig(credentials)
 var bceConfig = &bce.Config{
 	Credentials: credentials,
 	Checksum:    true,
-	Region:      os.Getenv("BOS_REGION"),
+	Region:      os.Getenv("Region"),
 }
 var bosClient = NewClient(bceConfig)
 
