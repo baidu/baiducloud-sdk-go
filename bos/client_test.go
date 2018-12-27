@@ -17,13 +17,13 @@ import (
 	"github.com/baidu/baiducloud-sdk-go/util"
 )
 
-var credentials = bce.NewCredentials(os.Getenv("BAIDU_BCE_AK"), os.Getenv("BAIDU_BCE_SK"))
+var credentials = bce.NewCredentials(os.Getenv("AccessKeyID"), os.Getenv("SecretAccessKey"))
 
 //var bceConfig = bce.NewConfig(credentials)
 var bceConfig = &bce.Config{
 	Credentials: credentials,
 	Checksum:    true,
-	Region:      os.Getenv("BOS_REGION"),
+	Region:      os.Getenv("Region"),
 }
 var bosClient = NewClient(bceConfig)
 
@@ -230,7 +230,7 @@ func TestSetBucketAcl(t *testing.T) {
 			AccessControlList: []Grant{
 				{
 					Grantee: []BucketGrantee{
-						{Id: "ef5a4b19192f4931adcf0e12f82795e2"},
+						{Id: "another-user-id"},
 					},
 					Permission: []string{"FULL_CONTROL"},
 				},
@@ -1633,7 +1633,6 @@ func TestPubObjectBySTS(t *testing.T) {
 	around(t, method, bucketNamePrefix, objectKey, func(bucketName string) {
 		req := bce.SessionTokenRequest{
 			DurationSeconds: 600,
-			Id:              "ef5a4b19192f4931adcf0e12f82795e2",
 			AccessControlList: []bce.AccessControlListItem{
 				{
 					Service:    "bce:bos",

@@ -24,7 +24,7 @@ func init() {
 	var bceConfig = &bce.Config{
 		Credentials: credentials,
 		Checksum:    true,
-		Region:      os.Getenv("BOS_REGION"),
+		Region:      os.Getenv("Region"),
 	}
 	blbClient = NewBLBClient(bceConfig)
 	r := mux.NewRouter()

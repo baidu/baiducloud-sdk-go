@@ -15,7 +15,7 @@ var credentials, _ = bce.NewCredentialsFromFile("../aksk-test.json")
 var bceConfig = &bce.Config{
 	Credentials: credentials,
 	Checksum:    true,
-	Region:      os.Getenv("BOS_REGION"),
+	Region:      os.Getenv("Region"),
 }
 var bccClient = NewClient(bceConfig)
 
