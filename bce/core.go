@@ -219,13 +219,18 @@ type SignOption struct {
 	Credentials               *Credentials // for STS(Security Token Service) only
 	headersToSignSpecified    bool
 	initialized               bool
+	CustomUserAgent           string
+	CustomSignFunc            GenerateAuthorizationFunc
 }
+
+type GenerateAuthorizationFunc func(req *Request, option *SignOption)
 
 func NewSignOption(timestamp string, expirationPeriodInSeconds int,
 	headers map[string]string, headersToSign []string) *SignOption {
 
 	return &SignOption{timestamp, expirationPeriodInSeconds,
-		headers, headersToSign, nil, len(headersToSign) > 0, false}
+		headers, headersToSign, nil, len(headersToSign) > 0, false, "", nil}
+	//headers, headersToSign, nil, len(headersToSign) > 0, false}
 }
 
 // CheckSignOption returns a new empty bce.SignOption instance if no option specified.
@@ -529,7 +534,12 @@ func (c *Client) SendRequest(req *Request, option *SignOption) (bceResponse *Res
 		option = &SignOption{}
 	}
 
-	option.AddHeader("User-Agent", c.GetUserAgent())
+	//option.AddHeader("User-Agent", c.GetUserAgent())
+	if len(option.CustomUserAgent) > 0 {
+		option.AddHeader("User-Agent", option.CustomUserAgent)
+	} else {
+		option.AddHeader("User-Agent", c.GetUserAgent())
+	}
 	option.AddHeader("Content-Type", "application/json")
 	if c.RetryPolicy == nil {
 		c.RetryPolicy = NewDefaultRetryPolicy(3, 20*time.Second)
@@ -545,7 +555,11 @@ func (c *Client) SendRequest(req *Request, option *SignOption) (bceResponse *Res
 		if option.Credentials != nil {
 			GenerateAuthorization(*option.Credentials, *req, option)
 		} else {
-			GenerateAuthorization(*c.Credentials, *req, option)
+			if option.CustomSignFunc != nil {
+				option.CustomSignFunc(req, option)
+			} else if c.Credentials != nil {
+				GenerateAuthorization(*c.Credentials, *req, option)
+			}
 		}
 
 		if c.debug {
