@@ -195,12 +195,12 @@ func (c *Client) DeleteVolume(volumeId string, option *bce.SignOption) error {
 
 // GetVolumeList get all volumes
 func (c *Client) GetVolumeList(args *GetVolumeListArgs, option *bce.SignOption) ([]Volume, error) {
-	if args == nil {
-		args = &GetVolumeListArgs{}
-	}
-	params := map[string]string{
-		"zoneName":   args.ZoneName,
-		"instanceId": args.InstanceId,
+	var params map[string]string
+	if args != nil {
+		params = map[string]string{
+			"zoneName":   args.ZoneName,
+			"instanceId": args.InstanceId,
+		}
 	}
 	req, err := bce.NewRequest("GET", c.GetURL("v2/volume", params), nil)
 	if err != nil {
